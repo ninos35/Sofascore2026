@@ -8,8 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		D2F569DB2F59C8CD001DF50A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DA2F59C8CD001DF50A /* SnapKit */; };
-		D2F569DD2F59C8CD001DF50A /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */; };
+		D2F569EE2F5ECAC2001DF50A /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D2F569EF2F5ECAC2001DF50A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D2F569EE2F5ECAC2001DF50A /* SnapKit-Dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D2F569C12F59C786001DF50A /* Sofascore2026.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sofascore2026.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,7 +56,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2F569DB2F59C8CD001DF50A /* SnapKit in Frameworks */,
-				D2F569DD2F59C8CD001DF50A /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +88,7 @@
 				D2F569BD2F59C786001DF50A /* Sources */,
 				D2F569BE2F59C786001DF50A /* Frameworks */,
 				D2F569BF2F59C786001DF50A /* Resources */,
+				D2F569EF2F5ECAC2001DF50A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
