@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2F569DB2F59C8CD001DF50A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DA2F59C8CD001DF50A /* SnapKit */; };
 		D2F569EE2F5ECAC2001DF50A /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2F569DB2F59C8CD001DF50A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,8 +97,6 @@
 			);
 			name = Sofascore2026;
 			packageProductDependencies = (
-				D2F569DA2F59C8CD001DF50A /* SnapKit */,
-				D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */,
 			);
 			productName = Sofascore2026;
 			productReference = D2F569C12F59C786001DF50A /* Sofascore2026.app */;
@@ -131,7 +127,6 @@
 			mainGroup = D2F569B82F59C786001DF50A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D2F569D92F59C8CD001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D2F569C22F59C786001DF50A /* Products */;
@@ -380,11 +375,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D2F569DA2F59C8CD001DF50A /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D2F569D92F59C8CD001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D2F569D92F59C8CD001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */;
