@@ -7,22 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2F569EE2F5ECAC2001DF50A /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D2F569F22F5EF46E001DF50A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569F12F5EF46E001DF50A /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D2F569EF2F5ECAC2001DF50A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D2F569EE2F5ECAC2001DF50A /* SnapKit-Dynamic in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -387,11 +376,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D2F569DC2F59C8CD001DF50A /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D2F569D92F59C8CD001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
+
 		D2F569F12F5EF46E001DF50A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D2F569F02F5EF46E001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */;
