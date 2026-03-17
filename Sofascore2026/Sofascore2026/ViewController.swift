@@ -29,18 +29,16 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .white
+        let dataSource = Homework2DataSource()
+
         
-        
+//      frame dio (nije dio druge zadace)
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EE"
 
-        
-//        let today = Date()
-//        let viewingDay = formatter.string(from: today)
-        
-                for i in -3...3 {
+        for i in -3...3 {
             let day = Calendar.current.date(byAdding: .day, value: i, to: Date())
             
             if let date = day {
@@ -52,33 +50,63 @@ class ViewController: UIViewController {
                 }
                 let txt = "\(dan.uppercased())\n\(datum.dropLast(5))"
                 sendDates.append(txt)
-            }
-            
-            
+        }
             
             
             let viewFrame = Frame(sports: sports,sentDates: sendDates)
-//            let dataSource = Homework2DataSource()
-//            let matchesFrame = Matches(day: viewingDay, events: [(dataSource.laLigaLeague(), dataSource.laLigaEvents())])
                     
-                    
+            let league = LeagueView()
+            league.set(league: dataSource.laLigaLeague())
+         
             view.addSubview(viewFrame)
-//            view.addSubview(matchesFrame)
+//       kraj frame dijela
             
             
-            viewFrame.translatesAutoresizingMaskIntoConstraints=false
+            view.addSubview(league)
+            
+            let match1 = Matches()
+            match1.set(event: dataSource.laLigaEvents()[0])
+            league.addSubview(match1)
+            let match2 = Matches()
+            match2.set(event: dataSource.laLigaEvents()[1])
+            league.addSubview(match2)
+            let match3 = Matches()
+            match3.set(event: dataSource.laLigaEvents()[2])
+            league.addSubview(match3)
+            let match4 = Matches()
+            match4.set(event: dataSource.laLigaEvents()[3])
+            league.addSubview(match4)
+                    
+            
             viewFrame.snp.makeConstraints { make in
                 make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 
                 make.leading.trailing.equalToSuperview()
                 make.height.equalTo(144)
             }
-//            matchesFrame.translatesAutoresizingMaskIntoConstraints = false
-//            matchesFrame.snp.makeConstraints { make in
-//                make.top.equalTo(viewFrame.snp.bottom)
-//                make.width.equalToSuperview()
-//            }
-            
+            league.snp.makeConstraints { make in
+                make.height.equalTo(56)
+                make.top.equalTo(viewFrame.snp.bottom)
+                make.width.equalToSuperview()
+            }
+                    
+            match1.snp.makeConstraints { make in
+                make.top.equalTo(league.snp.bottom)
+                make.width.equalToSuperview()
+            }
+            match2.snp.makeConstraints { make in
+                make.top.equalTo(match1.snp.bottom).offset(56)
+                make.width.equalToSuperview()
+            }
+            match3.snp.makeConstraints { make in
+                make.top.equalTo(match2.snp.bottom).offset(56)
+                make.width.equalToSuperview()
+            }
+            match4.snp.makeConstraints { make in
+                make.top.equalTo(match3.snp.bottom).offset(56)
+                make.width.equalToSuperview()
+            }
+
             
         }
         

@@ -148,10 +148,6 @@ class Frame: BaseView {
         calendarTabsStack.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-//        calendarTabsStack.widthAnchor.constraint(equalTo: calendarTabs.widthAnchor, constant: 20).isActive = true
-//        calendarTabsStack.topAnchor.constraint(equalTo: calendarTabs.topAnchor).isActive = true
-//        calendarTabsStack.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        
     }
 
     override func setupGestureRecognizers() {
