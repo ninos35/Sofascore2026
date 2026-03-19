@@ -11,106 +11,64 @@ import SofaAcademic
 
 class ViewController: UIViewController {
     
-    private let sports: [Sport] = [
-        Sport(name: "Football", icon: "Icon"),
-        Sport(name: "Basketball", icon: "icon_basketball"),
-        Sport(name:"Am. Football", icon: "icon_american_football")
-    ]
-    
-    private var sendDates: [String] = []
-    
+    private let dataSource = Homework2DataSource()
+    private let leagueView = LeagueView()
 
-    
-    
-    
-    
+    private let matchView1 = MatchView()
+    private let matchView2 = MatchView()
+    private let matchView3 = MatchView()
+    private let matchView4 = MatchView()
+
+   
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
+        view.addSubview(leagueView)
+            
+        leagueView.addSubview(matchView1)
+        leagueView.addSubview(matchView2)
+        leagueView.addSubview(matchView3)
+        leagueView.addSubview(matchView4)
+        
+        styleViews()
+        setupConstraints()
+        
+        
+        leagueView.set(league: dataSource.laLigaLeague())
+
+        matchView1.set(event: dataSource.laLigaEvents()[0])
+        matchView2.set(event: dataSource.laLigaEvents()[1])
+        matchView3.set(event: dataSource.laLigaEvents()[2])
+        matchView4.set(event: dataSource.laLigaEvents()[3])
+        }
+    
+    func styleViews(){
         view.backgroundColor = .white
-        let dataSource = Homework2DataSource()
-
-        
-//      frame dio (nije dio druge zadace)
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EE"
-
-        for i in -3...3 {
-            let day = Calendar.current.date(byAdding: .day, value: i, to: Date())
-            
-            if let date = day {
-                let datum = formatter.string(from: date)
-                var dan = dateFormatter.string(from: date)
-                
-                if dan == dateFormatter.string(from: Date()) {
-                    dan = "TODAY"
-                }
-                let txt = "\(dan.uppercased())\n\(datum.dropLast(5))"
-                sendDates.append(txt)
-        }
-            
-            
-            let viewFrame = Frame(sports: sports,sentDates: sendDates)
-                    
-            let league = LeagueView()
-            league.set(league: dataSource.laLigaLeague())
-         
-            view.addSubview(viewFrame)
-//       kraj frame dijela
-            
-            
-            view.addSubview(league)
-            
-            let match1 = Matches()
-            match1.set(event: dataSource.laLigaEvents()[0])
-            league.addSubview(match1)
-            let match2 = Matches()
-            match2.set(event: dataSource.laLigaEvents()[1])
-            league.addSubview(match2)
-            let match3 = Matches()
-            match3.set(event: dataSource.laLigaEvents()[2])
-            league.addSubview(match3)
-            let match4 = Matches()
-            match4.set(event: dataSource.laLigaEvents()[3])
-            league.addSubview(match4)
-                    
-            
-            viewFrame.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                
-                make.leading.trailing.equalToSuperview()
-                make.height.equalTo(144)
-            }
-            league.snp.makeConstraints { make in
-                make.height.equalTo(56)
-                make.top.equalTo(viewFrame.snp.bottom)
-                make.width.equalToSuperview()
-            }
-                    
-            match1.snp.makeConstraints { make in
-                make.top.equalTo(league.snp.bottom)
-                make.width.equalToSuperview()
-            }
-            match2.snp.makeConstraints { make in
-                make.top.equalTo(match1.snp.bottom).offset(56)
-                make.width.equalToSuperview()
-            }
-            match3.snp.makeConstraints { make in
-                make.top.equalTo(match2.snp.bottom).offset(56)
-                make.width.equalToSuperview()
-            }
-            match4.snp.makeConstraints { make in
-                make.top.equalTo(match3.snp.bottom).offset(56)
-                make.width.equalToSuperview()
-            }
-
-            
-        }
-        
-        
     }
     
+    func setupConstraints(){
+        leagueView.snp.makeConstraints { make in
+            make.height.equalTo(56)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
+                
+        matchView1.snp.makeConstraints { make in
+            make.top.equalTo(leagueView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+        matchView2.snp.makeConstraints { make in
+            make.top.equalTo(matchView1.snp.bottom).offset(56)
+            make.leading.trailing.equalToSuperview()
+        }
+        matchView3.snp.makeConstraints { make in
+            make.top.equalTo(matchView2.snp.bottom).offset(56)
+            make.leading.trailing.equalToSuperview()
+        }
+        matchView4.snp.makeConstraints { make in
+            make.top.equalTo(matchView3.snp.bottom).offset(56)
+            make.leading.trailing.equalToSuperview()
+        }
+    }
 }

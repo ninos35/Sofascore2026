@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D2F569D32F59C78A001DF50A /* Exceptions for "Sofascore2026" folder in "Sofascore2026" target */ = {
+		D2C7991A2F6C2E3C0073F98D /* Exceptions for "Sofascore2026" folder in "Sofascore2026" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,7 +29,7 @@
 		D2F569C32F59C786001DF50A /* Sofascore2026 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				D2F569D32F59C78A001DF50A /* Exceptions for "Sofascore2026" folder in "Sofascore2026" target */,
+				D2C7991A2F6C2E3C0073F98D /* Exceptions for "Sofascore2026" folder in "Sofascore2026" target */,
 			);
 			path = Sofascore2026;
 			sourceTree = "<group>";

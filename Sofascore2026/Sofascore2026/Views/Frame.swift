@@ -10,16 +10,7 @@ import SnapKit
 
 class Frame: BaseView {
     
-    private let sports : [Sport]
-    private let sentDates: [String]
-    
-    init(sports: [Sport],sentDates: [String]) {
-        self.sports = sports
-        self.sentDates = sentDates
-        super.init()
-    }
-    
-    
+
     
     private let headerRectangle = UIView()
     private let headerMain = UIView()
@@ -46,39 +37,39 @@ class Frame: BaseView {
         
         calendarTabs.addSubview(calendarTabsStack)
         
-        for sport in sports {
-            let button = UIButton(configuration: .plain())
-            
-            button.setTitle(sport.name, for: .normal)
-            button.setImage(UIImage(named: sport.icon), for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.tintColor = .white
-            button.configuration?.imagePlacement = .top
-            button.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
-            button.configuration?.background.cornerRadius = 0
-            headerTabs.addArrangedSubview(button)
-        }
-
-        
-        for day in sentDates {
-
-                var config = UIButton.Configuration.plain()
-                
-                config.title = day
-                config.titleAlignment = .center
-            
-                config.baseForegroundColor = .white
-                config.background.cornerRadius = 0
-                config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                let button = UIButton(configuration: config)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.titleLabel?.numberOfLines = 2
-                button.titleLabel?.lineBreakMode = .byClipping
-                button.titleLabel?.adjustsFontSizeToFitWidth = true
-                button.contentVerticalAlignment = .center
-                button.contentHorizontalAlignment = .center
-                calendarTabsStack.addArrangedSubview(button)
-            }
+//        for sport in sports {
+//            let button = UIButton(configuration: .plain())
+//            
+//            button.setTitle(sport.name, for: .normal)
+//            button.setImage(UIImage(named: sport.icon), for: .normal)
+//            button.translatesAutoresizingMaskIntoConstraints = false
+//            button.tintColor = .white
+//            button.configuration?.imagePlacement = .top
+//            button.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
+//            button.configuration?.background.cornerRadius = 0
+//            headerTabs.addArrangedSubview(button)
+//        }
+//
+//        
+//        for day in sentDates {
+//
+//                var config = UIButton.Configuration.plain()
+//                
+//                config.title = day
+//                config.titleAlignment = .center
+//            
+//                config.baseForegroundColor = .white
+//                config.background.cornerRadius = 0
+//                config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+//                let button = UIButton(configuration: config)
+//                button.translatesAutoresizingMaskIntoConstraints = false
+//                button.titleLabel?.numberOfLines = 2
+//                button.titleLabel?.lineBreakMode = .byClipping
+//                button.titleLabel?.adjustsFontSizeToFitWidth = true
+//                button.contentVerticalAlignment = .center
+//                button.contentHorizontalAlignment = .center
+//                calendarTabsStack.addArrangedSubview(button)
+//            }
         }
     
 
