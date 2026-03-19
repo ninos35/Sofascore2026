@@ -34,13 +34,15 @@ class LeagueView: BaseView {
         mainContainer.backgroundColor = .white
         
         countryLabel.font = UIFont(name: "Roboto-Bold", size: 14)
+        countryLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
+        
         arrow.image = UIImage(named: "Vector")
         arrow.contentMode = .scaleAspectFit
-        leagueLabel.textColor = .gray
-        leagueLabel.font = UIFont(name: "Roboto-Regular", size: 14)
 
+        leagueLabel.font = UIFont(name: "Roboto-Bold", size: 14)
+        leagueLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
         
-        textImageView.spacing = 10
+        textImageView.spacing = 7
         }
 
     override func setupConstraints() {
