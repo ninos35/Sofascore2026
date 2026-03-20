@@ -18,7 +18,7 @@ class MatchScoreView: BaseView {
         addSubview(homeScoreLabel)
         addSubview(awayScoreLabel)
     }
-
+    
     override func styleViews() {
         
         homeScoreLabel.textColor = Constants.Colors.gray
@@ -43,13 +43,13 @@ class MatchScoreView: BaseView {
         }
     }
     
-    func set(event: Event){
+    func set(event: Event) {
         homeScoreLabel.text = event.homeScore != nil ? "\(event.homeScore!)" : ""
         awayScoreLabel.text = event.awayScore != nil ? "\(event.awayScore!)" : ""
-
+        
         switch event.status {
         case .notStarted:
-            fallthrough
+            break
             
         case .inProgress:
             homeScoreLabel.textColor = Constants.Colors.red

@@ -15,13 +15,13 @@ class MatchStatusView: BaseView {
     private let statusLabel = UILabel()
     
     private let dividerView = UIView()
-
+    
     override func addViews() {
         addSubview(dateTimeLabel)
         addSubview(statusLabel)
         addSubview(dividerView)
     }
-
+    
     override func styleViews() {
         
         dateTimeLabel.textColor = Constants.Colors.gray
@@ -65,7 +65,7 @@ class MatchStatusView: BaseView {
         switch event.status {
         case .notStarted:
             statusLabel.text = "-"
-
+            
         case .inProgress:
             statusLabel.textColor = Constants.Colors.red
             statusLabel.text = String(Int(Date().timeIntervalSince(date)/60)) + "'"
@@ -73,7 +73,7 @@ class MatchStatusView: BaseView {
         case .halftime:
             statusLabel.textColor = Constants.Colors.red
             statusLabel.text = "HT"
-
+            
         case .finished:
             statusLabel.text = "FT"
         }

@@ -18,7 +18,7 @@ class MatchTeamsView: BaseView {
     private let homeNameLabel = UILabel()
     private let awayLogoImageView = UIImageView()
     private let awayNameLabel = UILabel()
-
+    
     override func addViews() {
         addSubview(homeTeamView)
         addSubview(awayTeamView)
@@ -29,7 +29,7 @@ class MatchTeamsView: BaseView {
         awayTeamView.addSubview(awayLogoImageView)
         awayTeamView.addSubview(awayNameLabel)
     }
-
+    
     override func styleViews() {
         homeNameLabel.textColor = Constants.Colors.black
         homeNameLabel.font = Constants.Fonts.regular

@@ -10,13 +10,13 @@ import UIKit
 import SnapKit
 
 class MatchView: BaseView {
-        
+    
     private let mainView = UIView()
     
     private let matchStatusView = MatchStatusView()
     private let matchTeamsView = MatchTeamsView()
     private let matchScoreView = MatchScoreView()
-
+    
     override func addViews() {
         
         addSubview(mainView)
@@ -51,7 +51,7 @@ class MatchView: BaseView {
             make.trailing.equalTo(matchScoreView.snp.leading)
         }
     }
-
+    
     func set(event: Event){
         matchStatusView.set(event: event)
         matchTeamsView.set(event: event)

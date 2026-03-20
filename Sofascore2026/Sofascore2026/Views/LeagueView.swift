@@ -29,7 +29,7 @@ class LeagueView: BaseView {
         leagueStackView.addArrangedSubview(arrowImageView)
         leagueStackView.addArrangedSubview(leagueLabel)
     }
-
+    
     override func styleViews() {
         mainView.backgroundColor = .white
         
@@ -38,13 +38,13 @@ class LeagueView: BaseView {
         
         arrowImageView.image = UIImage(named: "Vector")
         arrowImageView.contentMode = .scaleAspectFit
-
+        
         leagueLabel.font = Constants.Fonts.bold
         leagueLabel.textColor = Constants.Colors.gray
         
         leagueStackView.spacing = 7
-        }
-
+    }
+    
     override func setupConstraints() {
         
         mainView.snp.makeConstraints { make in
@@ -63,7 +63,7 @@ class LeagueView: BaseView {
             make.height.equalTo(24)
         }
     }
-
+    
     func set(league: League){
         countryLabel.text = league.country?.name
         leagueLabel.text = league.name
