@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_american_football.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "La Liga.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
