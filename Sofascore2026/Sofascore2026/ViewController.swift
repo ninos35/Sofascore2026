@@ -24,13 +24,8 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
-        view.addSubview(leagueView)
-            
-        leagueView.addSubview(matchView1)
-        leagueView.addSubview(matchView2)
-        leagueView.addSubview(matchView3)
-        leagueView.addSubview(matchView4)
         
+        addViews()
         styleViews()
         setupConstraints()
         
@@ -42,6 +37,14 @@ class ViewController: UIViewController {
         matchView3.set(event: dataSource.laLigaEvents()[2])
         matchView4.set(event: dataSource.laLigaEvents()[3])
         }
+    
+    func addViews(){
+        view.addSubview(leagueView)
+        view.addSubview(matchView1)
+        view.addSubview(matchView2)
+        view.addSubview(matchView3)
+        view.addSubview(matchView4)
+    }
     
     func styleViews(){
         view.backgroundColor = .white
@@ -59,15 +62,15 @@ class ViewController: UIViewController {
             make.leading.trailing.equalToSuperview()
         }
         matchView2.snp.makeConstraints { make in
-            make.top.equalTo(matchView1.snp.bottom).offset(56)
+            make.top.equalTo(matchView1.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
         matchView3.snp.makeConstraints { make in
-            make.top.equalTo(matchView2.snp.bottom).offset(56)
+            make.top.equalTo(matchView2.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
         matchView4.snp.makeConstraints { make in
-            make.top.equalTo(matchView3.snp.bottom).offset(56)
+            make.top.equalTo(matchView3.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
     }

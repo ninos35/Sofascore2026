@@ -11,43 +11,43 @@ import SnapKit
 
 class LeagueView: BaseView {
     
-    private let mainContainer = UIView()
+    private let mainView = UIView()
     private let logoImageView = UIImageView()
     
-    private let textImageView = UIStackView()
+    private let leagueStackView = UIStackView()
     
     private let countryLabel = UILabel()
-    private let arrow = UIImageView()
+    private let arrowImageView = UIImageView()
     private let leagueLabel = UILabel()
     
     override func addViews() {
-        addSubview(mainContainer)
-        mainContainer.addSubview(logoImageView)
-        mainContainer.addSubview(textImageView)
+        addSubview(mainView)
+        mainView.addSubview(logoImageView)
+        mainView.addSubview(leagueStackView)
         
-        textImageView.addArrangedSubview(countryLabel)
-        textImageView.addArrangedSubview(arrow)
-        textImageView.addArrangedSubview(leagueLabel)
+        leagueStackView.addArrangedSubview(countryLabel)
+        leagueStackView.addArrangedSubview(arrowImageView)
+        leagueStackView.addArrangedSubview(leagueLabel)
     }
 
     override func styleViews() {
-        mainContainer.backgroundColor = .white
+        mainView.backgroundColor = .white
         
-        countryLabel.font = UIFont(name: "Roboto-Bold", size: 14)
-        countryLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
+        countryLabel.font = Constants.Fonts.bold
+        countryLabel.textColor = Constants.Colors.black
         
-        arrow.image = UIImage(named: "Vector")
-        arrow.contentMode = .scaleAspectFit
+        arrowImageView.image = UIImage(named: "Vector")
+        arrowImageView.contentMode = .scaleAspectFit
 
-        leagueLabel.font = UIFont(name: "Roboto-Bold", size: 14)
-        leagueLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
+        leagueLabel.font = Constants.Fonts.bold
+        leagueLabel.textColor = Constants.Colors.gray
         
-        textImageView.spacing = 7
+        leagueStackView.spacing = 7
         }
 
     override func setupConstraints() {
         
-        mainContainer.snp.makeConstraints { make in
+        mainView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview()
@@ -57,14 +57,10 @@ class LeagueView: BaseView {
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
         }
-        textImageView.snp.makeConstraints { make in
+        leagueStackView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(80)
             make.centerY.equalToSuperview()
             make.height.equalTo(24)
-        }
-        arrow.snp.makeConstraints { make in
-            make.height.equalTo(10)
-            make.width.equalTo(5)
         }
     }
 

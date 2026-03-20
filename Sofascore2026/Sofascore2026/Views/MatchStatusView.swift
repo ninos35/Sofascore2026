@@ -24,15 +24,15 @@ class MatchStatusView: BaseView {
 
     override func styleViews() {
         
-        dateTimeLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
-        dateTimeLabel.font = UIFont(name: "RobotoCondensed-Regular", size: 12)
+        dateTimeLabel.textColor = Constants.Colors.gray
+        dateTimeLabel.font = Constants.Fonts.regularCondensed
         dateTimeLabel.textAlignment = .center
         
-        statusLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
-        statusLabel.font = UIFont(name: "RobotoCondensed-Regular", size: 12)
+        statusLabel.textColor = Constants.Colors.gray
+        statusLabel.font = Constants.Fonts.regularCondensed
         statusLabel.textAlignment = .center
         
-        dividerView.backgroundColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.1)
+        dividerView.backgroundColor = Constants.Colors.lightGray
     }
     
     override func setupConstraints() {
@@ -45,7 +45,7 @@ class MatchStatusView: BaseView {
         statusLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.leading.equalTo(4)
-            make.top.equalToSuperview().offset(30)
+            make.top.equalTo(dateTimeLabel.snp.bottom).offset(4)
         }
         dividerView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
@@ -67,11 +67,11 @@ class MatchStatusView: BaseView {
             statusLabel.text = "-"
 
         case .inProgress:
-            statusLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
+            statusLabel.textColor = Constants.Colors.red
             statusLabel.text = String(Int(Date().timeIntervalSince(date)/60)) + "'"
             
         case .halftime:
-            statusLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
+            statusLabel.textColor = Constants.Colors.red
             statusLabel.text = "HT"
 
         case .finished:

@@ -21,12 +21,12 @@ class MatchScoreView: BaseView {
 
     override func styleViews() {
         
-        homeScoreLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
-        homeScoreLabel.font = UIFont(name: "Roboto-Regular", size: 14)
+        homeScoreLabel.textColor = Constants.Colors.gray
+        homeScoreLabel.font = Constants.Fonts.regular
         homeScoreLabel.textAlignment = .center
         
-        awayScoreLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 0.4)
-        awayScoreLabel.font = UIFont(name: "Roboto-Regular", size: 14)
+        awayScoreLabel.textColor = Constants.Colors.gray
+        awayScoreLabel.font = Constants.Fonts.regular
         awayScoreLabel.textAlignment = .center
     }
     
@@ -52,18 +52,18 @@ class MatchScoreView: BaseView {
             fallthrough
             
         case .inProgress:
-            homeScoreLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
-            awayScoreLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
+            homeScoreLabel.textColor = Constants.Colors.red
+            awayScoreLabel.textColor = Constants.Colors.red
             
         case .halftime:
-            homeScoreLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
-            awayScoreLabel.textColor = UIColor(red: 233/255, green: 48/255, blue: 48/255, alpha: 1)
+            homeScoreLabel.textColor = Constants.Colors.red
+            awayScoreLabel.textColor = Constants.Colors.red
             
         case .finished:
             if (event.homeScore ?? 0) > (event.awayScore ?? 0) {
-                homeScoreLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
+                homeScoreLabel.textColor = Constants.Colors.black
             } else if (event.homeScore ?? 0) < (event.awayScore ?? 0) {
-                awayScoreLabel.textColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
+                awayScoreLabel.textColor = Constants.Colors.black
             }
         }
     }

@@ -25,27 +25,30 @@ class MatchView: BaseView {
         mainView.addSubview(matchTeamsView)
         mainView.addSubview(matchScoreView)
     }
-
-    override func styleViews() {
-    }
-
+    
     override func setupConstraints() {
         
         mainView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         matchStatusView.snp.makeConstraints { make in
             make.width.equalTo(64)
             make.height.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.bottom.equalToSuperview()
             make.leading.equalToSuperview()
         }
         matchScoreView.snp.makeConstraints { make in
             make.width.equalTo(32)
-            make.top.equalToSuperview()
+            make.top.bottom.equalToSuperview()
             make.trailing.equalToSuperview()
+        }
+        matchTeamsView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalTo(matchStatusView.snp.trailing)
+            make.trailing.equalTo(matchScoreView.snp.leading)
         }
     }
 
