@@ -11,14 +11,18 @@ import SofaAcademic
 
 class ViewController: UIViewController {
     
-    private let dataSource = Homework2DataSource()
+    private let dataSource = Homework3DataSource()
+    private let sports: [(String,String)] = [
+        ("Football","icon_football"),
+        ("Basketball","icon_basketball"),
+        ("Am. Football","icon_american_football")
+    ]
+    
+    private let frame = Frame()
+    
+    private let tableView = EventTableView()
+    
     private let leagueView = LeagueView()
-    
-    private let matchView1 = MatchView()
-    private let matchView2 = MatchView()
-    private let matchView3 = MatchView()
-    private let matchView4 = MatchView()
-    
     
     override func viewDidLoad() {
         
@@ -28,20 +32,14 @@ class ViewController: UIViewController {
         styleViews()
         setupConstraints()
         
-        leagueView.set(league: dataSource.laLigaLeague())
+        frame.set(sports:sports)
         
-        matchView1.set(event: dataSource.laLigaEvents()[0])
-        matchView2.set(event: dataSource.laLigaEvents()[1])
-        matchView3.set(event: dataSource.laLigaEvents()[2])
-        matchView4.set(event: dataSource.laLigaEvents()[3])
+        tableViewSetup(data: dataSource.events())
     }
     
     func addViews(){
-        view.addSubview(leagueView)
-        view.addSubview(matchView1)
-        view.addSubview(matchView2)
-        view.addSubview(matchView3)
-        view.addSubview(matchView4)
+        view.addSubview(frame)
+        view.addSubview(tableView)
     }
     
     func styleViews(){
@@ -50,27 +48,31 @@ class ViewController: UIViewController {
     
     func setupConstraints(){
         
-        leagueView.snp.makeConstraints { make in
-            make.height.equalTo(56)
+        frame.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(48)
+        }
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(frame.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(624)
+        }
+    }
+    
+    func tableViewSetup(data: [Event]) {
+        
+        let grouped = Dictionary(grouping: data) { $0.league?.id ?? 0 }
+        
+        let finalSections: [Section] = grouped.compactMap { (key, events) in
+            guard let firstLeague = events.first?.league else {
+                return nil
+            }
+            return Section(league: firstLeague, events: events)
         }
         
-        matchView1.snp.makeConstraints { make in
-            make.top.equalTo(leagueView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-        matchView2.snp.makeConstraints { make in
-            make.top.equalTo(matchView1.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-        matchView3.snp.makeConstraints { make in
-            make.top.equalTo(matchView2.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-        matchView4.snp.makeConstraints { make in
-            make.top.equalTo(matchView3.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
+        let sortedSections = finalSections.sorted { $0.league.id < $1.league.id }
+        
+        tableView.set(sections: sortedSections)
     }
 }
