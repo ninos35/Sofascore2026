@@ -13,28 +13,47 @@ class Frame: BaseView {
     private let sportsStackView = UIStackView()
     
     override func addViews() {
-     addSubview(sportsStackView)
+        addSubview(sportsStackView)
     }
-
+    
     override func styleViews() {
         sportsStackView.backgroundColor = Constants.Colors.lightBlue
         sportsStackView.axis = .horizontal
+        sportsStackView.distribution = .fillEqually
     }
-
+    
     override func setupConstraints() {
         sportsStackView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
     }
-
-//    func set(sport: String, imageName: String){
-//        <#function body#>
-//    }
-//    
-//    frame.snp.makeConstraints { make in
-//        make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-//        make.leading.trailing.equalToSuperview()
-//        make.height.equalTo(48)
-//    }
+    
+    func changeSport(clicked: SportView) {
+        for subview in sportsStackView.arrangedSubviews {
+            if let otherSportView = subview as? SportView {
+                if otherSportView !== clicked {
+                    otherSportView.isSelected = false
+                }
+            }
+        }
+    }
+    
+    func set(sports: [(String,String)]) {
+        
+        for (index,sport) in sports.enumerated() {
+            let sportView = SportView()
+            sportView.set(sport:(name:sport.0,icon:sport.1))
+            if  index == 0 {
+                sportView.isSelected = true
+            }
+            sportsStackView.addArrangedSubview(sportView)
+            
+            sportView.stateChanged = { [weak self] clickedSport in
+                if clickedSport.isSelected{
+                    self?.changeSport(clicked: clickedSport)
+                }
+            }
+        }
+    }
 }
