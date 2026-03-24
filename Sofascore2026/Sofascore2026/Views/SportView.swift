@@ -17,7 +17,7 @@ class SportView: BaseView {
     
     private let underlineView = UIView()
     
-    var stateChanged: ((SportView)->Void)?
+    var stateChanged: ((SportView) -> Void)?
     
     var isSelected: Bool = false {
         didSet {
@@ -43,7 +43,7 @@ class SportView: BaseView {
         }
         configuration.baseForegroundColor = .white
         configuration.imagePadding = 4
-        
+
         underlineView.layer.cornerRadius = 2
         underlineView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
     }

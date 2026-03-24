@@ -12,13 +12,9 @@ import SofaAcademic
 class ViewController: UIViewController {
     
     private let dataSource = Homework3DataSource()
-    private let sports: [(String,String)] = [
-        ("Football","icon_football"),
-        ("Basketball","icon_basketball"),
-        ("Am. Football","icon_american_football")
-    ]
+    private let sports: [Constants.Sports] = [.football,.basketball,.american_football]
     
-    private let frame = Frame()
+    private let topSectionView = TopSectionView()
     
     private let tableView = EventTableView()
     
@@ -32,13 +28,14 @@ class ViewController: UIViewController {
         styleViews()
         setupConstraints()
         
-        frame.set(sports:sports)
+        topSectionView.set(sports: sports)
         
         tableViewSetup(data: dataSource.events())
+        tableView.setupTableView()
     }
     
     func addViews(){
-        view.addSubview(frame)
+        view.addSubview(topSectionView)
         view.addSubview(tableView)
     }
     
@@ -48,15 +45,14 @@ class ViewController: UIViewController {
     
     func setupConstraints(){
         
-        frame.snp.makeConstraints { make in
+        topSectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(48)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(frame.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(624)
+            make.top.equalTo(topSectionView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     

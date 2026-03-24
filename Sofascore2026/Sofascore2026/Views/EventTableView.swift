@@ -18,28 +18,29 @@ class EventTableView: BaseView {
     
     private var sections: [Section] = []
     
-    private let tableView = UITableView()
+    private let tableView: UITableView = .init()
     
     override func addViews() {
         addSubview(tableView)
     }
     
     override func styleViews() {
-        tableView.register(LeagueCell.self, forHeaderFooterViewReuseIdentifier: LeagueCell.id)
-        tableView.register(MatchCell.self, forCellReuseIdentifier: MatchCell.id)
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        if #available(iOS 15.0, *) {
-            tableView.sectionHeaderTopPadding = 0
-        }
+        tableView.sectionHeaderTopPadding = 0
     }
     
     override func setupConstraints() {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    func setupTableView() {
+        tableView.register(LeagueCell.self, forHeaderFooterViewReuseIdentifier: LeagueCell.id)
+        tableView.register(MatchCell.self, forCellReuseIdentifier: MatchCell.id)
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func set(sections: [Section]){
@@ -65,7 +66,7 @@ extension EventTableView: UITableViewDataSource, UITableViewDelegate {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: LeagueCell.id) as? LeagueCell else {
             return nil
         }
-        let leagueData = sections[section].league
+        let leagueData: League = sections[section].league
         header.configure(with: leagueData)
         return header
     }
@@ -74,7 +75,7 @@ extension EventTableView: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchCell.id, for: indexPath) as? MatchCell else {
             return UITableViewCell()
         }
-        let match = sections[indexPath.section].events[indexPath.row]
+        let match: Event = sections[indexPath.section].events[indexPath.row]
         cell.configure(with: match)
         return cell
     }

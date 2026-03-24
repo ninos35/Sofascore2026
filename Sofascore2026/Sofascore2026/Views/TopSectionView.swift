@@ -8,7 +8,7 @@ import SofaAcademic
 import UIKit
 import SnapKit
 
-class Frame: BaseView {
+class TopSectionView: BaseView {
     
     private let sportsStackView = UIStackView()
     
@@ -24,26 +24,24 @@ class Frame: BaseView {
     
     override func setupConstraints() {
         sportsStackView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
     func changeSport(clicked: SportView) {
         for subview in sportsStackView.arrangedSubviews {
-            if let otherSportView = subview as? SportView {
-                if otherSportView !== clicked {
-                    otherSportView.isSelected = false
-                }
+            if let otherSportView = subview as? SportView,
+               otherSportView != clicked {
+                otherSportView.isSelected = false
             }
         }
     }
     
-    func set(sports: [(String,String)]) {
+    func set(sports: [Constants.Sports]) {
         
         for (index,sport) in sports.enumerated() {
             let sportView = SportView()
-            sportView.set(sport:(name:sport.0,icon:sport.1))
+            sportView.set(sport:(name:sport.name,icon:sport.icon))
             if  index == 0 {
                 sportView.isSelected = true
             }

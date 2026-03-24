@@ -25,7 +25,15 @@ class LeagueCell: UITableViewHeaderFooterView {
     }
     
     func set() {
+        addViews()
+        setupConstraints()
+    }
+    
+    func addViews() {
         contentView.addSubview(leagueView)
+    }
+    
+    func setupConstraints() {
         leagueView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

@@ -17,9 +17,38 @@ enum Constants{
         static let lightBlue = UIColor(red: 55/255, green: 77/255, blue: 245/255, alpha: 1)
     }
     
-    enum Fonts{
+    enum Fonts {
         static let regular = UIFont(name: "Roboto-Regular", size: 14)
         static let regularCondensed = UIFont(name: "RobotoCondensed-Regular", size: 12)
         static let bold = UIFont(name: "Roboto-Bold", size: 14)
+    }
+    
+    enum Sports {
+        case football
+        case basketball
+        case american_football
+        
+        var name: String {
+            switch self {
+            case .football:
+                return "Football"
+            case .basketball:
+                return "Basketball"
+            case .american_football:
+                return "Am. Football"
+            }
+        }
+        
+        var icon: String {
+            switch self {
+            case .football:
+                return "icon_football"
+            case .basketball:
+                return "icon_basketball"
+            case .american_football:
+                return "icon_american_football"
+            }
+        }
+        
     }
 }

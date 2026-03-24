@@ -27,7 +27,15 @@ class MatchCell: UITableViewCell {
     }
     
     func set() {
+        addViews()
+        setupConstraints()
+    }
+    
+    func addViews() {
         contentView.addSubview(matchView)
+    }
+    
+    func setupConstraints() {
         matchView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
