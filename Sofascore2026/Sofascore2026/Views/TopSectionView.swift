@@ -10,10 +10,20 @@ import SnapKit
 
 class TopSectionView: BaseView {
     
+    private let headerView = UIView()
     private let sportsStackView = UIStackView()
     
+    private let settingsImageView = UIImageView()
+    
+    var settingsClicked: (() -> Void)?
+    
     override func addViews() {
+        addSubview(headerView)
         addSubview(sportsStackView)
+        
+        headerView.addSubview(settingsImageView)
+        
+        setupSettings()
     }
     
     override func styleViews() {
@@ -23,9 +33,37 @@ class TopSectionView: BaseView {
     }
     
     override func setupConstraints() {
-        sportsStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        headerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(48)
         }
+        
+        settingsImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
+        }
+        
+        sportsStackView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    func setupSettings() {
+        settingsImageView.image = UIImage(named: Constants.Icons.settingsIcon)
+        settingsImageView.contentMode = .scaleAspectFit
+        
+        settingsImageView.isUserInteractionEnabled = true
+    }
+    
+    override func setupGestureRecognizers() {
+        let settingsTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clickedSettings))
+        settingsImageView.addGestureRecognizer(settingsTapGesture)
+    }
+    
+    @objc private func clickedSettings() {
+        settingsClicked?()
     }
     
     func changeSport(clicked: SportView) {
