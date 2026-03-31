@@ -32,11 +32,9 @@ class MatchView: BaseView {
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
         }
         matchStatusView.snp.makeConstraints { make in
             make.width.equalTo(64)
-            make.height.equalToSuperview()
             make.top.bottom.equalToSuperview()
             make.leading.equalToSuperview()
         }
