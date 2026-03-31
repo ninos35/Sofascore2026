@@ -79,7 +79,7 @@ class TopSectionView: BaseView {
         
         for (index,sport) in sports.enumerated() {
             let sportView = SportView()
-            sportView.set(sport:(name:sport.name,icon:sport.icon))
+            sportView.set(sport: sport)
             if  index == 0 {
                 sportView.isSelected = true
             }

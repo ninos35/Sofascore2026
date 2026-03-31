@@ -47,6 +47,9 @@ class MatchScoreView: BaseView {
         homeScoreLabel.text = event.homeScore != nil ? "\(event.homeScore!)" : ""
         awayScoreLabel.text = event.awayScore != nil ? "\(event.awayScore!)" : ""
         
+        homeScoreLabel.textColor = Constants.Colors.gray
+        awayScoreLabel.textColor = Constants.Colors.gray
+        
         switch event.status {
         case .notStarted:
             break

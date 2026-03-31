@@ -12,7 +12,7 @@ import SofaAcademic
 class ViewController: UIViewController {
     
     private let dataSource = Homework3DataSource()
-    private let sports: [Constants.Sports] = [.football,.basketball,.american_football]
+    private let sports: [Constants.Sports] = [.football,.basketball,.americanFootball]
     
     private let topSectionView = TopSectionView()
     
@@ -35,8 +35,8 @@ class ViewController: UIViewController {
         
         topSectionView.set(sports: sports)
         
-        tableViewSetup(data: dataSource.events())
         tableView.setupTableView()
+        setTableViewData(data: dataSource.events())
     }
     
     func addViews(){
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func tableViewSetup(data: [Event]) {
+    func setTableViewData(data: [Event]) {
         
         let grouped = Dictionary(grouping: data) { $0.league?.id ?? 0 }
         

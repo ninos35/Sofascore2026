@@ -57,10 +57,10 @@ class MatchStatusView: BaseView {
     
     func set(event: Event){
         let date: Date = Date(timeIntervalSince1970: Double(event.startTimestamp))
-        let formatter: DateFormatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
         
-        dateTimeLabel.text = String(formatter.string(from: date))
+        dateTimeLabel.text = MatchHelper.formatTime(date: date)
+        
+        statusLabel.textColor = Constants.Colors.gray
         
         switch event.status {
         case .notStarted:

@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Constants{
+enum Constants {
     
     enum Colors {
         static let black = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
@@ -27,7 +27,7 @@ enum Constants{
     enum Sports {
         case football
         case basketball
-        case american_football
+        case americanFootball
         
         var name: String {
             switch self {
@@ -35,7 +35,7 @@ enum Constants{
                 return "Football"
             case .basketball:
                 return "Basketball"
-            case .american_football:
+            case .americanFootball:
                 return "Am. Football"
             }
         }
@@ -46,7 +46,7 @@ enum Constants{
                 return "icon_football"
             case .basketball:
                 return "icon_basketball"
-            case .american_football:
+            case .americanFootball:
                 return "icon_american_football"
             }
         }

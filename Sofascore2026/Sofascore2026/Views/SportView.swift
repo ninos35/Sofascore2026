@@ -70,7 +70,7 @@ class SportView: BaseView {
         isSelected = true
     }
     
-    func set(sport:(name: String, icon: String)) {
+    func set(sport: Constants.Sports) {
         
         configuration.title = sport.name
         configuration.image = UIImage(named: sport.icon)
