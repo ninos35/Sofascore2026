@@ -1,5 +1,5 @@
 //
-//  Frame.swift
+//  TopSectionView.swift
 //  Sofascore2026
 //
 //  Created by akademija on 14.03.2026..
@@ -13,14 +13,19 @@ class TopSectionView: BaseView {
     private let headerView = UIView()
     private let sportsStackView = UIStackView()
     
+    private let logoImageView = UIImageView()
+    private let trophyImageView = UIImageView()
     private let settingsImageView = UIImageView()
     
     var settingsClicked: (() -> Void)?
+    var changeSportData: ((Constants.Sports) -> Void)?
     
     override func addViews() {
         addSubview(headerView)
         addSubview(sportsStackView)
         
+        headerView.addSubview(logoImageView)
+        headerView.addSubview(trophyImageView)
         headerView.addSubview(settingsImageView)
         
         setupSettings()
@@ -37,7 +42,17 @@ class TopSectionView: BaseView {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(48)
         }
-        
+        logoImageView.snp.makeConstraints { make in
+            make.width.equalTo(132)
+            make.height.equalTo(20)
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        trophyImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-52)
+            make.centerY.equalToSuperview()
+        }
         settingsImageView.snp.makeConstraints { make in
             make.width.height.equalTo(24)
             make.trailing.equalToSuperview().offset(-16)
@@ -51,13 +66,16 @@ class TopSectionView: BaseView {
     }
     
     func setupSettings() {
-        settingsImageView.image = UIImage(named: Constants.Icons.settingsIcon)
-        settingsImageView.contentMode = .scaleAspectFit
+        logoImageView.image = UIImage(named: Constants.Icons.logoIcon)
         
-        settingsImageView.isUserInteractionEnabled = true
+        trophyImageView.image = UIImage(named: Constants.Icons.trophyIcon)
+        
+        settingsImageView.image = UIImage(named: Constants.Icons.settingsIcon)
     }
     
     override func setupGestureRecognizers() {
+        settingsImageView.isUserInteractionEnabled = true
+        
         let settingsTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clickedSettings))
         settingsImageView.addGestureRecognizer(settingsTapGesture)
     }
@@ -71,6 +89,10 @@ class TopSectionView: BaseView {
             if let otherSportView = subview as? SportView,
                otherSportView != clicked {
                 otherSportView.isSelected = false
+            }
+            else {
+                guard let sport = clicked.sport else { return }
+                self.changeSportData?(sport)
             }
         }
     }

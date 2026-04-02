@@ -13,6 +13,8 @@ class EventDetailsViewController: UIViewController {
     
     private let detailedMatchView = DetailedMatchView()
     
+    private let backImageView = UIImageView()
+    
     private let titleView = UIView()
     private let titleImageView = UIImageView()
     private let titleLabel = UILabel()
@@ -20,7 +22,11 @@ class EventDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        let backButton = UIBarButtonItem(customView: backImageView)
+        
         self.navigationItem.titleView = titleView
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewDidLoad() {
@@ -29,6 +35,7 @@ class EventDetailsViewController: UIViewController {
         addViews()
         styleViews()
         setupConstraints()
+        setupGestureRecognizers()
     }
     
     func addViews() {
@@ -40,6 +47,9 @@ class EventDetailsViewController: UIViewController {
     
     func styleViews() {
         view.backgroundColor = .white
+        
+        backImageView.image = UIImage(named: "back_arrow_vector")
+        backImageView.contentMode = .scaleAspectFit
         
         titleLabel.font = Constants.Fonts.regularCondensed
         titleLabel.textColor = Constants.Colors.gray
@@ -53,13 +63,28 @@ class EventDetailsViewController: UIViewController {
         
         titleImageView.snp.makeConstraints { make in
             make.size.equalTo(16)
-            make.leading.equalToSuperview()
+            make.top.leading.equalToSuperview()
         }
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleImageView.snp.trailing).offset(8)
             make.top.bottom.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+        
+        backImageView.snp.makeConstraints { make in
+            make.size.equalTo(24)
+        }
+    }
+    
+    func setupGestureRecognizers() {
+        backImageView.isUserInteractionEnabled = true
+        
+        let backTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clickedBack))
+        backImageView.addGestureRecognizer(backTapGesture)
+    }
+    
+    @objc func clickedBack() {
+        navigationController?.popViewController(animated: true)
     }
     
     func setEventDetails(match: Event) {

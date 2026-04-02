@@ -17,6 +17,8 @@ class SportView: BaseView {
     
     private let underlineView = UIView()
     
+    var sport: Constants.Sports?
+    
     var stateChanged: ((SportView) -> Void)?
     
     var isSelected: Bool = false {
@@ -71,6 +73,7 @@ class SportView: BaseView {
     }
     
     func set(sport: Constants.Sports) {
+        self.sport = sport
         
         configuration.title = sport.name
         configuration.image = UIImage(named: sport.icon)

@@ -40,6 +40,9 @@ class DetailedMatchView: BaseView {
         }
         
         detailedMatchDataView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalTo(136)
+            make.height.equalTo(112)
             make.centerX.equalToSuperview()
         }
         

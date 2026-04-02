@@ -53,6 +53,8 @@ enum Constants {
     }
     
     enum Icons {
+        static let logoIcon = "icon_logo"
+        static let trophyIcon = "icon_trophy"
         static let settingsIcon = "icon_settings"
     }
 }

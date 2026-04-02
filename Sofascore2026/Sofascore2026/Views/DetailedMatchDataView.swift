@@ -11,11 +11,13 @@ import SnapKit
 
 class DetailedMatchDataView: BaseView {
     
+    let startDataStackView = UIStackView()
     let startDateLabel = UILabel()
     let startTimeLabel = UILabel()
     
-    let matchScoreView = UIView()
+    let matchDetailsStackView = UIStackView()
     
+    let matchScoreStackView = UIStackView()
     let homeScoreLabel = UILabel()
     let awayScoreLabel = UILabel()
     let dashLabel = UILabel()
@@ -23,15 +25,18 @@ class DetailedMatchDataView: BaseView {
     let matchTimeLabel = UILabel()
     
     override func addViews() {
-        addSubview(startDateLabel)
-        addSubview(startTimeLabel)
+        addSubview(startDataStackView)
+        addSubview(matchDetailsStackView)
         
-        addSubview(matchScoreView)
-        addSubview(matchTimeLabel)
+        matchDetailsStackView.addArrangedSubview(matchScoreStackView)
+        matchDetailsStackView.addArrangedSubview(matchTimeLabel)
         
-        matchScoreView.addSubview(homeScoreLabel)
-        matchScoreView.addSubview(awayScoreLabel)
-        matchScoreView.addSubview(dashLabel)
+        startDataStackView.addArrangedSubview(startDateLabel)
+        startDataStackView.addArrangedSubview(startTimeLabel)
+        
+        matchScoreStackView.addArrangedSubview(homeScoreLabel)
+        matchScoreStackView.addArrangedSubview(dashLabel)
+        matchScoreStackView.addArrangedSubview(awayScoreLabel)
     }
     
     override func styleViews() {
@@ -58,73 +63,70 @@ class DetailedMatchDataView: BaseView {
         
         matchTimeLabel.textAlignment = .center
         matchTimeLabel.font = Constants.Fonts.regularCondensed
+        
+        matchDetailsStackView.axis = .vertical
+        
+        startDataStackView.axis = .vertical
+        
+        matchScoreStackView.axis = .horizontal
     }
     
     override func setupConstraints() {
-        startDateLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(24)
-            make.width.equalTo(136)
-            make.centerX.equalToSuperview()
-        }
-        
-        startTimeLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(44)
-            make.width.equalTo(136)
-            make.centerX.equalToSuperview()
-        }
-        
-        matchScoreView.snp.makeConstraints { make in
+        startDataStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.width.equalTo(136)
-            make.height.equalTo(40)
+            make.height.equalTo(32)
             make.centerX.equalToSuperview()
         }
+        startDateLabel.snp.makeConstraints { make in
+            make.height.equalTo(16)
+        }
+        startTimeLabel.snp.makeConstraints { make in
+            make.height.equalTo(16)
+        }
         
+        matchDetailsStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.width.equalTo(136)
+            make.height.equalTo(56)
+            make.centerX.equalToSuperview()
+        }
+        matchScoreStackView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
         homeScoreLabel.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
             make.width.equalTo(56)
-            make.leading.equalToSuperview()
         }
         awayScoreLabel.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
             make.width.equalTo(56)
-            make.trailing.equalToSuperview()
         }
         dashLabel.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.leading.equalTo(homeScoreLabel.snp.trailing)
-            make.trailing.equalTo(awayScoreLabel.snp.leading)
+            make.width.equalTo(24)
         }
-        
         matchTimeLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(56)
-            make.width.equalTo(136)
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.height.equalTo(16)
         }
     }
     
     func set(match: Event) {
         
         let date: Date = Date(timeIntervalSince1970: Double(match.startTimestamp))
-        let formatter: DateFormatter = DateFormatter()
         
         homeScoreLabel.text = match.homeScore != nil ? "\(match.homeScore!)" : ""
         awayScoreLabel.text = match.awayScore != nil ? "\(match.awayScore!)" : ""
         
+        startDataStackView.isHidden = false
+        matchDetailsStackView.isHidden = false
+        
         switch match.status {
         case .notStarted:
-            matchScoreView.isHidden = true
+            matchDetailsStackView.isHidden = true
             
-            formatter.dateFormat = "dd.MM.yyyy."
-            startDateLabel.text = formatter.string(from: date)
-            
-            formatter.dateFormat = "HH:mm"
-            startTimeLabel.text = formatter.string(from: date)
+            startDateLabel.text = MatchHelper.formatDate(date: date)
+            startTimeLabel.text = MatchHelper.formatTime(date: date)
             
         case .inProgress:
-            startDateLabel.isHidden = true
-            startTimeLabel.isHidden = true
+            startDataStackView.isHidden = true
             
             homeScoreLabel.textColor = Constants.Colors.red
             awayScoreLabel.textColor = Constants.Colors.red
@@ -134,9 +136,8 @@ class DetailedMatchDataView: BaseView {
             matchTimeLabel.textColor = Constants.Colors.red
             
         case .halftime:
-            startDateLabel.isHidden = true
-            startTimeLabel.isHidden = true
-            
+            startDataStackView.isHidden = true
+
             homeScoreLabel.textColor = Constants.Colors.red
             awayScoreLabel.textColor = Constants.Colors.red
             dashLabel.textColor = Constants.Colors.red
@@ -146,9 +147,8 @@ class DetailedMatchDataView: BaseView {
             
             
         case .finished:
-            startDateLabel.isHidden = true
-            startTimeLabel.isHidden = true
-            
+            startDataStackView.isHidden = true
+
             if (match.homeScore ?? 0) > (match.awayScore ?? 0) {
                 homeScoreLabel.textColor = Constants.Colors.black
             } else if (match.homeScore ?? 0) < (match.awayScore ?? 0) {

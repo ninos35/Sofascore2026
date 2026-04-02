@@ -91,5 +91,14 @@ class ViewController: UIViewController {
             
             self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
         }
+        
+        topSectionView.changeSportData = { [weak self] selectedSport in
+            if selectedSport == .football {
+                self?.setTableViewData(data: self?.dataSource.events() ?? [])
+            }
+            else {
+                self?.setTableViewData(data: [])
+            }
+        }
     }
 }
