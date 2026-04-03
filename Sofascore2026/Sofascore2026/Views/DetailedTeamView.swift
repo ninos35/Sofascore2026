@@ -11,8 +11,8 @@ import SnapKit
 
 class DetailedTeamView: BaseView {
     
-    let teamLogoImageView = UIImageView()
-    let teamNameLabel = UILabel()
+    let teamLogoImageView: UIImageView = UIImageView()
+    let teamNameLabel: UILabel = UILabel()
     
     override func addViews() {
         addSubview(teamLogoImageView)

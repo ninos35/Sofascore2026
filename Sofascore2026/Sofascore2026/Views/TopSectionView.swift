@@ -10,12 +10,12 @@ import SnapKit
 
 class TopSectionView: BaseView {
     
-    private let headerView = UIView()
-    private let sportsStackView = UIStackView()
+    private let headerView: UIView = UIView()
+    private let sportsStackView: UIStackView = UIStackView()
     
-    private let logoImageView = UIImageView()
-    private let trophyImageView = UIImageView()
-    private let settingsImageView = UIImageView()
+    private let logoImageView: UIImageView = UIImageView()
+    private let trophyImageView: UIImageView = UIImageView()
+    private let settingsImageView: UIImageView = UIImageView()
     
     var settingsClicked: (() -> Void)?
     var changeSportData: ((Constants.Sports) -> Void)?

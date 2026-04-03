@@ -11,14 +11,14 @@ import SofaAcademic
 
 class ViewController: UIViewController {
     
-    private let dataSource = Homework3DataSource()
+    private let dataSource: Homework3DataSource = .init()
     private let sports: [Constants.Sports] = [.football,.basketball,.americanFootball]
     
-    private let topSectionView = TopSectionView()
+    private let topSectionView: TopSectionView = TopSectionView()
     
-    private let tableView = EventTableView()
+    private let tableView: EventTableView = EventTableView()
     
-    private let leagueView = LeagueView()
+    private let leagueView: LeagueView = LeagueView()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

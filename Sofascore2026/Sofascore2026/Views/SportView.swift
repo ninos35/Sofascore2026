@@ -11,11 +11,11 @@ import SnapKit
 
 class SportView: BaseView {
     
-    private var configuration = UIButton.Configuration.plain()
+    private var configuration: UIButton.Configuration = UIButton.Configuration.plain()
     
-    private let sportButton = UIButton()
+    private let sportButton: UIButton = UIButton()
     
-    private let underlineView = UIView()
+    private let underlineView: UIView = UIView()
     
     var sport: Constants.Sports?
     

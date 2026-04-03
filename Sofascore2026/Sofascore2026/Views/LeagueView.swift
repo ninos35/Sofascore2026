@@ -11,14 +11,14 @@ import SnapKit
 
 class LeagueView: BaseView {
     
-    private let mainView = UIView()
-    private let logoImageView = UIImageView()
+    private let mainView: UIView = UIView()
+    private let logoImageView: UIImageView = UIImageView()
     
-    private let leagueStackView = UIStackView()
+    private let leagueStackView: UIStackView = UIStackView()
     
-    private let countryLabel = UILabel()
-    private let arrowImageView = UIImageView()
-    private let leagueLabel = UILabel()
+    private let countryLabel: UILabel = UILabel()
+    private let arrowImageView: UIImageView = UIImageView()
+    private let leagueLabel: UILabel = UILabel()
     
     override func addViews() {
         addSubview(mainView)
@@ -36,7 +36,7 @@ class LeagueView: BaseView {
         countryLabel.font = Constants.Fonts.bold
         countryLabel.textColor = Constants.Colors.black
         
-        arrowImageView.image = UIImage(named: "Vector")
+        arrowImageView.image = UIImage(named: Constants.Vectors.pointingVector)
         arrowImageView.contentMode = .scaleAspectFit
         
         leagueLabel.font = Constants.Fonts.bold

@@ -11,22 +11,24 @@ import SofaAcademic
 
 class EventDetailsViewController: UIViewController {
     
-    private let detailedMatchView = DetailedMatchView()
+    private let detailedMatchView: DetailedMatchView = DetailedMatchView()
     
-    private let backImageView = UIImageView()
+    private let backButtonView: UIView = UIView()
+    private let backImageView: UIImageView = UIImageView()
     
-    private let titleView = UIView()
-    private let titleImageView = UIImageView()
-    private let titleLabel = UILabel()
+    private let titleView: UIView = UIView()
+    private let titleImageView: UIImageView = UIImageView()
+    private let titleLabel: UILabel = UILabel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        let backButton = UIBarButtonItem(customView: backImageView)
+        let backButton = UIBarButtonItem(customView: backButtonView)
         
         self.navigationItem.titleView = titleView
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
+        backButton.hidesSharedBackground = true
     }
     
     override func viewDidLoad() {
@@ -41,6 +43,8 @@ class EventDetailsViewController: UIViewController {
     func addViews() {
         view.addSubview(detailedMatchView)
         
+        backButtonView.addSubview(backImageView)
+        
         titleView.addSubview(titleImageView)
         titleView.addSubview(titleLabel)
     }
@@ -48,7 +52,7 @@ class EventDetailsViewController: UIViewController {
     func styleViews() {
         view.backgroundColor = .white
         
-        backImageView.image = UIImage(named: "back_arrow_vector")
+        backImageView.image = UIImage(named: Constants.Vectors.backArrow)
         backImageView.contentMode = .scaleAspectFit
         
         titleLabel.font = Constants.Fonts.regularCondensed
@@ -63,16 +67,17 @@ class EventDetailsViewController: UIViewController {
         
         titleImageView.snp.makeConstraints { make in
             make.size.equalTo(16)
-            make.top.leading.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
         }
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleImageView.snp.trailing).offset(8)
             make.top.bottom.equalToSuperview()
-            make.centerY.equalToSuperview()
         }
         
         backImageView.snp.makeConstraints { make in
-            make.size.equalTo(24)
+            make.center.equalToSuperview()
+            make.size.equalTo(16)
         }
     }
     
@@ -87,12 +92,16 @@ class EventDetailsViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    func getTitle(match: Event) -> String {
+        let countryName: String = match.league?.country?.name ?? ""
+        let leagueName: String = match.league?.name ?? ""
+        return countryName + ", " + leagueName
+    }
+    
     func setEventDetails(match: Event) {
         titleImageView.image = UIImage(named: match.league?.name ?? "")
         
-        let countryName: String = match.league?.country?.name ?? ""
-        let leagueName: String = match.league?.name ?? ""
-        titleLabel.text = countryName + ", " + leagueName
+        titleLabel.text = getTitle(match: match)
         
         detailedMatchView.set(detailedMatch: match)
     }

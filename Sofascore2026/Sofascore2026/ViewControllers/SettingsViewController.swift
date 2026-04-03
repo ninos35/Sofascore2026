@@ -10,8 +10,8 @@ import SnapKit
 
 class SettingsViewController: UIViewController {
     
-    let titleLabel = UILabel()
-    let dismissLabel = UILabel()
+    let titleLabel: UILabel = UILabel()
+    let dismissLabel: UILabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,20 +31,23 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.text = "Settings"
-        dismissLabel.font = Constants.Fonts.bold
+        titleLabel.font = Constants.Fonts.bold
+        titleLabel.textAlignment = .center
         
         dismissLabel.text = "Dismiss"
         dismissLabel.textColor = Constants.Colors.lightBlue
         dismissLabel.font = Constants.Fonts.regular
+        dismissLabel.textAlignment = .center
     }
     
     func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         dismissLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+            make.leading.trailing.top.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
     

@@ -11,11 +11,11 @@ import SnapKit
 
 class DetailedMatchView: BaseView {
     
-    let eventView = UIView()
+    let eventView: UIView = UIView()
     
-    let homeDetailedTeamView = DetailedTeamView()
-    let detailedMatchDataView = DetailedMatchDataView()
-    let awayDetailedTeamView = DetailedTeamView()
+    let homeDetailedTeamView: DetailedTeamView = DetailedTeamView()
+    let detailedMatchDataView: DetailedMatchDataView = DetailedMatchDataView()
+    let awayDetailedTeamView: DetailedTeamView = DetailedTeamView()
     
     
     override func addViews() {

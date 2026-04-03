@@ -11,10 +11,10 @@ import SnapKit
 
 class MatchStatusView: BaseView {
     
-    private let dateTimeLabel = UILabel()
-    private let statusLabel = UILabel()
+    private let dateTimeLabel: UILabel = UILabel()
+    private let statusLabel: UILabel = UILabel()
     
-    private let dividerView = UIView()
+    private let dividerView: UIView = UIView()
     
     override func addViews() {
         addSubview(dateTimeLabel)

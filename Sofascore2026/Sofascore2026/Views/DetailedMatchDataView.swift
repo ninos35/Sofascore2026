@@ -11,18 +11,18 @@ import SnapKit
 
 class DetailedMatchDataView: BaseView {
     
-    let startDataStackView = UIStackView()
-    let startDateLabel = UILabel()
-    let startTimeLabel = UILabel()
+    let startDataStackView: UIStackView = UIStackView()
+    let startDateLabel: UILabel = UILabel()
+    let startTimeLabel: UILabel = UILabel()
     
-    let matchDetailsStackView = UIStackView()
+    let matchDetailsStackView: UIStackView = UIStackView()
     
-    let matchScoreStackView = UIStackView()
-    let homeScoreLabel = UILabel()
-    let awayScoreLabel = UILabel()
-    let dashLabel = UILabel()
+    let matchScoreStackView: UIStackView = UIStackView()
+    let homeScoreLabel: UILabel = UILabel()
+    let awayScoreLabel: UILabel = UILabel()
+    let dashLabel: UILabel = UILabel()
     
-    let matchTimeLabel = UILabel()
+    let matchTimeLabel: UILabel = UILabel()
     
     override func addViews() {
         addSubview(startDataStackView)

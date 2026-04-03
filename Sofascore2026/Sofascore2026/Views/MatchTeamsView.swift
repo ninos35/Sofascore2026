@@ -11,13 +11,13 @@ import SnapKit
 
 class MatchTeamsView: BaseView {
     
-    private let homeTeamView = UIView()
-    private let awayTeamView = UIView()
+    private let homeTeamView: UIView = UIView()
+    private let awayTeamView: UIView = UIView()
     
-    private let homeLogoImageView = UIImageView()
-    private let homeNameLabel = UILabel()
-    private let awayLogoImageView = UIImageView()
-    private let awayNameLabel = UILabel()
+    private let homeLogoImageView: UIImageView = UIImageView()
+    private let homeNameLabel: UILabel = UILabel()
+    private let awayLogoImageView: UIImageView = UIImageView()
+    private let awayNameLabel: UILabel = UILabel()
     
     override func addViews() {
         addSubview(homeTeamView)

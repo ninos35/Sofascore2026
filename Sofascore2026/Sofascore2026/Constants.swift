@@ -57,4 +57,9 @@ enum Constants {
         static let trophyIcon = "icon_trophy"
         static let settingsIcon = "icon_settings"
     }
+    
+    enum Vectors {
+        static let backArrow = "back_arrow_vector"
+        static let pointingVector = "pointing_vector"
+    }
 }
