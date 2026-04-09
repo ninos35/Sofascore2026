@@ -90,11 +90,9 @@ class TopSectionView: BaseView {
                otherSportView != clicked {
                 otherSportView.isSelected = false
             }
-            else {
-                guard let sport = clicked.sport else { return }
-                self.changeSportData?(sport)
-            }
         }
+        guard let sport = clicked.sport else { return }
+        self.changeSportData?(sport)
     }
     
     func set(sports: [Constants.Sports]) {

@@ -112,8 +112,8 @@ class DetailedMatchDataView: BaseView {
         
         let date: Date = Date(timeIntervalSince1970: Double(match.startTimestamp))
         
-        homeScoreLabel.text = match.homeScore != nil ? "\(match.homeScore!)" : ""
-        awayScoreLabel.text = match.awayScore != nil ? "\(match.awayScore!)" : ""
+        homeScoreLabel.text = match.homeScore?.toString() ?? ""
+        awayScoreLabel.text = match.awayScore?.toString() ?? ""
         
         startDataStackView.isHidden = false
         matchDetailsStackView.isHidden = false

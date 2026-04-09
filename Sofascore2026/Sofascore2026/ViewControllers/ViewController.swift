@@ -46,7 +46,6 @@ class ViewController: UIViewController {
     
     func styleViews(){
         view.backgroundColor = Constants.Colors.lightBlue
-        self.navigationController?.isNavigationBarHidden = true
     }
     
     func setupConstraints(){
