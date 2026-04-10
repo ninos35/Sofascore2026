@@ -20,6 +20,8 @@ class EventTableView: BaseView {
     
     private let tableView: UITableView = .init()
     
+    var selectedEvent: ((Event) -> Void)?
+    
     override func addViews() {
         addSubview(tableView)
     }
@@ -62,6 +64,7 @@ extension EventTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 56
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: LeagueCell.id) as? LeagueCell else {
             return nil
@@ -78,5 +81,10 @@ extension EventTableView: UITableViewDataSource, UITableViewDelegate {
         let match: Event = sections[indexPath.section].events[indexPath.row]
         cell.configure(with: match)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selected: Event = sections[indexPath.section].events[indexPath.row]
+        selectedEvent?(selected)
     }
 }

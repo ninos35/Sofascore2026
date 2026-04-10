@@ -11,8 +11,8 @@ import SnapKit
 
 class MatchScoreView: BaseView {
     
-    private let homeScoreLabel = UILabel()
-    private let awayScoreLabel = UILabel()
+    private let homeScoreLabel: UILabel = UILabel()
+    private let awayScoreLabel: UILabel = UILabel()
     
     override func addViews() {
         addSubview(homeScoreLabel)

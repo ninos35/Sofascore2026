@@ -11,9 +11,9 @@ import SofaAcademic
 
 class LeagueCell: UITableViewHeaderFooterView {
     
-    static let id = "LeagueCell"
+    static let id: String = "LeagueCell"
     
-    private let leagueView = LeagueView()
+    private let leagueView: LeagueView = LeagueView()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

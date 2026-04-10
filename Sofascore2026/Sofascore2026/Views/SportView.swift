@@ -11,11 +11,13 @@ import SnapKit
 
 class SportView: BaseView {
     
-    private var configuration = UIButton.Configuration.plain()
+    private var configuration: UIButton.Configuration = UIButton.Configuration.plain()
     
-    private let sportButton = UIButton()
+    private let sportButton: UIButton = UIButton()
     
-    private let underlineView = UIView()
+    private let underlineView: UIView = UIView()
+    
+    var sport: Constants.Sports?
     
     var stateChanged: ((SportView) -> Void)?
     
@@ -71,6 +73,7 @@ class SportView: BaseView {
     }
     
     func set(sport: Constants.Sports) {
+        self.sport = sport
         
         configuration.title = sport.name
         configuration.image = UIImage(named: sport.icon)

@@ -11,9 +11,9 @@ import SofaAcademic
 
 class MatchCell: UITableViewCell {
     
-    static let id = "MatchCell"
+    static let id: String = "MatchCell"
     
-    private let matchView = MatchView()
+    private let matchView: MatchView = MatchView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

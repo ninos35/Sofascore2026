@@ -21,6 +21,7 @@ enum Constants {
         static let regular = UIFont(name: "Roboto-Regular", size: 14)
         static let regularCondensed = UIFont(name: "RobotoCondensed-Regular", size: 12)
         static let bold = UIFont(name: "Roboto-Bold", size: 14)
+        static let bigBold = UIFont(name: "Roboto-Bold", size: 32)
     }
     
     enum Sports {
@@ -49,6 +50,16 @@ enum Constants {
                 return "icon_american_football"
             }
         }
-        
+    }
+    
+    enum Icons {
+        static let logoIcon = "icon_logo"
+        static let trophyIcon = "icon_trophy"
+        static let settingsIcon = "icon_settings"
+    }
+    
+    enum Vectors {
+        static let backArrow = "back_arrow_vector"
+        static let pointingVector = "pointing_vector"
     }
 }

@@ -11,11 +11,11 @@ import SnapKit
 
 class MatchView: BaseView {
     
-    private let mainView = UIView()
+    private let mainView: UIView = UIView()
     
-    private let matchStatusView = MatchStatusView()
-    private let matchTeamsView = MatchTeamsView()
-    private let matchScoreView = MatchScoreView()
+    private let matchStatusView: MatchStatusView = MatchStatusView()
+    private let matchTeamsView: MatchTeamsView = MatchTeamsView()
+    private let matchScoreView: MatchScoreView = MatchScoreView()
     
     override func addViews() {
         
@@ -30,8 +30,7 @@ class MatchView: BaseView {
         
         mainView.snp.makeConstraints { make in
             make.height.equalTo(56)
-            make.leading.trailing.equalToSuperview()
-            make.top.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         matchStatusView.snp.makeConstraints { make in
             make.width.equalTo(64)
