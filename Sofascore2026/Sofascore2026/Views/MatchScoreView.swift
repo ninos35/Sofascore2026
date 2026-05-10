@@ -44,8 +44,8 @@ class MatchScoreView: BaseView {
     }
     
     func set(event: Event) {
-        homeScoreLabel.text = event.homeScore != nil ? "\(event.homeScore!)" : ""
-        awayScoreLabel.text = event.awayScore != nil ? "\(event.awayScore!)" : ""
+        homeScoreLabel.text = String(event.homeScore != nil ? "\(event.homeScore!)" : "")
+        awayScoreLabel.text = String(event.awayScore != nil ? "\(event.awayScore!)" : "")
         
         homeScoreLabel.textColor = Constants.Colors.gray
         awayScoreLabel.textColor = Constants.Colors.gray

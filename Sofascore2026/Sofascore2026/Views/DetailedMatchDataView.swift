@@ -112,8 +112,8 @@ class DetailedMatchDataView: BaseView {
         
         let date: Date = Date(timeIntervalSince1970: Double(match.startTimestamp))
         
-        homeScoreLabel.text = match.homeScore?.toString() ?? ""
-        awayScoreLabel.text = match.awayScore?.toString() ?? ""
+        homeScoreLabel.text = String(match.homeScore?.toString() ?? "")
+        awayScoreLabel.text = String(match.awayScore?.toString() ?? "")
         
         startDataStackView.isHidden = false
         matchDetailsStackView.isHidden = false
@@ -137,7 +137,7 @@ class DetailedMatchDataView: BaseView {
             
         case .halftime:
             startDataStackView.isHidden = true
-
+            
             homeScoreLabel.textColor = Constants.Colors.red
             awayScoreLabel.textColor = Constants.Colors.red
             dashLabel.textColor = Constants.Colors.red
@@ -148,7 +148,7 @@ class DetailedMatchDataView: BaseView {
             
         case .finished:
             startDataStackView.isHidden = true
-
+            
             if (match.homeScore ?? 0) > (match.awayScore ?? 0) {
                 homeScoreLabel.textColor = Constants.Colors.black
             } else if (match.homeScore ?? 0) < (match.awayScore ?? 0) {

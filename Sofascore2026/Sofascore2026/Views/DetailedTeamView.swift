@@ -39,7 +39,7 @@ class DetailedTeamView: BaseView {
     }
     
     func set(team: Team) {
-        teamLogoImageView.image = UIImage(named: team.name)
+        teamLogoImageView.setUrlImage(logoUrl: team.logoUrl)
         teamNameLabel.text = team.name
     }
 }

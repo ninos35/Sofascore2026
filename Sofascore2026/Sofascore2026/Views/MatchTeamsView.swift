@@ -84,8 +84,8 @@ class MatchTeamsView: BaseView {
                 awayNameLabel.textColor = Constants.Colors.gray
             }
         }
-        homeLogoImageView.image = UIImage(named: event.homeTeam.name)
-        awayLogoImageView.image = UIImage(named: event.awayTeam.name)
+        homeLogoImageView.setUrlImage(logoUrl: event.homeTeam.logoUrl)
+        awayLogoImageView.setUrlImage(logoUrl: event.awayTeam.logoUrl)
         
         homeNameLabel.text = event.homeTeam.name
         awayNameLabel.text = event.awayTeam.name

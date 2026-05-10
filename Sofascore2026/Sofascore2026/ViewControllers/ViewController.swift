@@ -11,7 +11,8 @@ import SofaAcademic
 
 class ViewController: UIViewController {
     
-    private let dataSource: Homework3DataSource = .init()
+    private let APIDataSource: APIClient = APIClient()
+    
     private let sports: [Constants.Sports] = [.football,.basketball,.americanFootball]
     
     private let topSectionView: TopSectionView = TopSectionView()
@@ -36,7 +37,7 @@ class ViewController: UIViewController {
         topSectionView.set(sports: sports)
         
         tableView.setupTableView()
-        setTableViewData(data: dataSource.events())
+        loadData(for: .football)
     }
     
     func addViews(){
@@ -61,9 +62,33 @@ class ViewController: UIViewController {
         }
     }
     
+    func loadData(for sport: Constants.Sports) {
+        //        Task {
+        //            do {
+        //                let events = try await APIDataSource.getAllEvents(sport: sport.urlKey)
+        //                await MainActor.run {
+        //                    setTableViewData(data: events)
+        //                }
+        //            } catch {
+        //                print(error)
+        //            }
+        //        }
+        APIDataSource.getAllEventsOld(sport: sport.urlKey) { [weak self] events in
+            DispatchQueue.main.async {
+                guard let self = self else {return}
+                
+                if let fetched = events {
+                    self.setTableViewData(data: fetched)
+                } else {
+                    print("Fetch Error")
+                }
+            }
+        }
+    }
+    
     func setTableViewData(data: [Event]) {
         
-        let grouped = Dictionary(grouping: data) { $0.league?.id ?? 0 }
+        let grouped = Dictionary(grouping: data) { $0.league.id }
         
         let finalSections: [Section] = grouped.compactMap { (key, events) in
             guard let firstLeague = events.first?.league else {
@@ -92,12 +117,7 @@ class ViewController: UIViewController {
         }
         
         topSectionView.changeSportData = { [weak self] selectedSport in
-            if selectedSport == .football {
-                self?.setTableViewData(data: self?.dataSource.events() ?? [])
-            }
-            else {
-                self?.setTableViewData(data: [])
-            }
+            self?.loadData(for: selectedSport)
         }
     }
 }

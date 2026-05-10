@@ -65,8 +65,8 @@ class LeagueView: BaseView {
     }
     
     func set(league: League){
-        countryLabel.text = league.country?.name
+        countryLabel.text = league.country.name
         leagueLabel.text = league.name
-        logoImageView.image = UIImage(named: league.name)
+        logoImageView.setUrlImage(logoUrl: league.logoUrl)
     }
 }

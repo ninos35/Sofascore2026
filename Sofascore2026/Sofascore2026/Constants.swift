@@ -50,6 +50,16 @@ enum Constants {
                 return "icon_american_football"
             }
         }
+        var urlKey: String {
+            switch self {
+            case .football:
+                return "football"
+            case .basketball:
+                return "basketball"
+            case .americanFootball:
+                return "am-football"
+            }
+        }
     }
     
     enum Icons {
@@ -61,5 +71,16 @@ enum Constants {
     enum Vectors {
         static let backArrow = "back_arrow_vector"
         static let pointingVector = "pointing_vector"
+    }
+    
+    enum EventStatus: String, Codable {
+        case notStarted = "NOT_STARTED"
+        case inProgress = "IN_PROGRESS"
+        case halftime = "HALF_TIME"
+        case finished = "FINISHED"
+    }
+    
+    enum URLs {
+        static let dataSourceUrl = "https://sofascore-ios-academy-be-c63faa1a2212.herokuapp.com"
     }
 }
