@@ -18,7 +18,7 @@ class TopSectionView: BaseView {
     private let settingsImageView: UIImageView = UIImageView()
     
     var settingsClicked: (() -> Void)?
-    var changeSportData: ((Constants.Sports) -> Void)?
+    var changeSportData: ((Sport) -> Void)?
     
     override func addViews() {
         addSubview(headerView)
@@ -95,7 +95,7 @@ class TopSectionView: BaseView {
         self.changeSportData?(sport)
     }
     
-    func set(sports: [Constants.Sports]) {
+    func set(sports: [Sport]) {
         
         for (index,sport) in sports.enumerated() {
             let sportView = SportView()

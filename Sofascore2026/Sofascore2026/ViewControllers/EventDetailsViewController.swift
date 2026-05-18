@@ -93,13 +93,13 @@ class EventDetailsViewController: UIViewController {
     }
     
     func getTitle(match: Event) -> String {
-        let countryName: String = match.league?.country?.name ?? ""
-        let leagueName: String = match.league?.name ?? ""
+        let countryName: String = match.league.country.name
+        let leagueName: String = match.league.name
         return countryName + ", " + leagueName
     }
     
     func setEventDetails(match: Event) {
-        titleImageView.image = UIImage(named: match.league?.name ?? "")
+        titleImageView.setUrlImage(logoUrl: match.league.logoUrl)
         
         titleLabel.text = getTitle(match: match)
         

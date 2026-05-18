@@ -24,33 +24,6 @@ enum Constants {
         static let bigBold = UIFont(name: "Roboto-Bold", size: 32)
     }
     
-    enum Sports {
-        case football
-        case basketball
-        case americanFootball
-        
-        var name: String {
-            switch self {
-            case .football:
-                return "Football"
-            case .basketball:
-                return "Basketball"
-            case .americanFootball:
-                return "Am. Football"
-            }
-        }
-        
-        var icon: String {
-            switch self {
-            case .football:
-                return "icon_football"
-            case .basketball:
-                return "icon_basketball"
-            case .americanFootball:
-                return "icon_american_football"
-            }
-        }
-    }
     
     enum Icons {
         static let logoIcon = "icon_logo"
@@ -61,5 +34,9 @@ enum Constants {
     enum Vectors {
         static let backArrow = "back_arrow_vector"
         static let pointingVector = "pointing_vector"
+    }
+    
+    enum URLs {
+        static let dataSourceUrl = "https://sofascore-ios-academy-be-c63faa1a2212.herokuapp.com"
     }
 }
