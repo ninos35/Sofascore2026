@@ -9,6 +9,10 @@ import Foundation
 
 class APIClient {
     
+    static let shared = APIClient()
+    
+    private init() {}
+    
     func getAllEvents(sport: String) async throws -> [Event] {
         
         guard let url = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {

@@ -10,9 +10,7 @@ import SnapKit
 import SofaAcademic
 
 class ViewController: UIViewController {
-    
-    private let APIDataSource: APIClient = APIClient()
-    
+        
     private let sports: [Sport] = [.football,.basketball,.americanFootball]
     
     private let topSectionView: TopSectionView = TopSectionView()
@@ -63,20 +61,24 @@ class ViewController: UIViewController {
     }
     
     func loadData(for sport: Sport) {
-        //        Task {
-        //            do {
-        //                let events = try await APIDataSource.getAllEvents(sport: sport.urlKey)
-        //                await MainActor.run {
-        //                    setTableViewData(data: events)
-        //                }
-        //            }
-        //        }
-        APIDataSource.getAllEventsOld(sport: sport.urlKey) { [weak self] events in
+//                Task {
+//                    do {
+//                        let events = try await APIClient.shared.getAllEvents(sport: sport.urlKey)
+//                        await MainActor.run {
+//                            setTableViewData(data: events)
+//                        }
+//                    } catch {
+//                        Alerts.showFetchError(on: self)
+//                    }
+//                }
+        APIClient.shared.getAllEventsOld(sport: sport.urlKey) { [weak self] events in
             DispatchQueue.main.async {
                 guard let self = self else {return}
                 
                 if let fetched = events {
                     self.setTableViewData(data: fetched)
+                } else {
+                    Alerts.showFetchError(on: self)
                 }
             }
         }
