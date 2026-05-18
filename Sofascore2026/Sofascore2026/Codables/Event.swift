@@ -10,7 +10,7 @@ struct Event: Codable {
     let homeTeam: Team
     let awayTeam: Team
     let startTimestamp: Int64
-    let status: Constants.EventStatus
+    let status: EventStatus
     let league: League
     let homeScore: Int?
     let awayScore: Int?

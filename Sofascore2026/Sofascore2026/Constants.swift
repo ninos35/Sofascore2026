@@ -24,43 +24,6 @@ enum Constants {
         static let bigBold = UIFont(name: "Roboto-Bold", size: 32)
     }
     
-    enum Sports {
-        case football
-        case basketball
-        case americanFootball
-        
-        var name: String {
-            switch self {
-            case .football:
-                return "Football"
-            case .basketball:
-                return "Basketball"
-            case .americanFootball:
-                return "Am. Football"
-            }
-        }
-        
-        var icon: String {
-            switch self {
-            case .football:
-                return "icon_football"
-            case .basketball:
-                return "icon_basketball"
-            case .americanFootball:
-                return "icon_american_football"
-            }
-        }
-        var urlKey: String {
-            switch self {
-            case .football:
-                return "football"
-            case .basketball:
-                return "basketball"
-            case .americanFootball:
-                return "am-football"
-            }
-        }
-    }
     
     enum Icons {
         static let logoIcon = "icon_logo"
@@ -71,13 +34,6 @@ enum Constants {
     enum Vectors {
         static let backArrow = "back_arrow_vector"
         static let pointingVector = "pointing_vector"
-    }
-    
-    enum EventStatus: String, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case halftime = "HALF_TIME"
-        case finished = "FINISHED"
     }
     
     enum URLs {

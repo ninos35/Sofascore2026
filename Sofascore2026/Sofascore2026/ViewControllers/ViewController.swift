@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     
     private let APIDataSource: APIClient = APIClient()
     
-    private let sports: [Constants.Sports] = [.football,.basketball,.americanFootball]
+    private let sports: [Sport] = [.football,.basketball,.americanFootball]
     
     private let topSectionView: TopSectionView = TopSectionView()
     
@@ -62,15 +62,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func loadData(for sport: Constants.Sports) {
+    func loadData(for sport: Sport) {
         //        Task {
         //            do {
         //                let events = try await APIDataSource.getAllEvents(sport: sport.urlKey)
         //                await MainActor.run {
         //                    setTableViewData(data: events)
         //                }
-        //            } catch {
-        //                print(error)
         //            }
         //        }
         APIDataSource.getAllEventsOld(sport: sport.urlKey) { [weak self] events in
@@ -79,8 +77,6 @@ class ViewController: UIViewController {
                 
                 if let fetched = events {
                     self.setTableViewData(data: fetched)
-                } else {
-                    print("Fetch Error")
                 }
             }
         }

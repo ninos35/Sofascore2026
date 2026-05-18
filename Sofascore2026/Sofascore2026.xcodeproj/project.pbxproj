@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D29492672FBB0FB700995F0C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D29492662FBB0FB700995F0C /* Kingfisher */; };
 		D2F569F22F5EF46E001DF50A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569F12F5EF46E001DF50A /* SnapKit */; };
 		D2F56A252F61C6CA001DF50A /* SofaAcademic in Frameworks */ = {isa = PBXBuildFile; productRef = D2F56A242F61C6CA001DF50A /* SofaAcademic */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D29492672FBB0FB700995F0C /* Kingfisher in Frameworks */,
 				D2F56A252F61C6CA001DF50A /* SofaAcademic in Frameworks */,
 				D2F569F22F5EF46E001DF50A /* SnapKit in Frameworks */,
 			);
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				D2F569F12F5EF46E001DF50A /* SnapKit */,
 				D2F56A242F61C6CA001DF50A /* SofaAcademic */,
+				D29492662FBB0FB700995F0C /* Kingfisher */,
 			);
 			productName = Sofascore2026;
 			productReference = D2F569C12F59C786001DF50A /* Sofascore2026.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				D2F569F02F5EF46E001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				D2F56A232F61C6CA001DF50A /* XCRemoteSwiftPackageReference "academy" */,
+				D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D2F569C22F59C786001DF50A /* Products */;
@@ -356,6 +360,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.9.0;
+			};
+		};
 		D2F569F02F5EF46E001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -375,6 +387,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D29492662FBB0FB700995F0C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		D2F569F12F5EF46E001DF50A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D2F569F02F5EF46E001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */;

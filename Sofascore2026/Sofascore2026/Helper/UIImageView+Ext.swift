@@ -6,18 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 extension UIImageView {
     func setUrlImage(logoUrl: String) {
-        guard let url = URL(string: logoUrl) else {return}
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
+        guard let url = URL(string: logoUrl) else { return }
+        
+        self.kf.setImage(with: url)
     }
 }

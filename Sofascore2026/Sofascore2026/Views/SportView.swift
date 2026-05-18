@@ -17,7 +17,7 @@ class SportView: BaseView {
     
     private let underlineView: UIView = UIView()
     
-    var sport: Constants.Sports?
+    var sport: Sport?
     
     var stateChanged: ((SportView) -> Void)?
     
@@ -72,7 +72,7 @@ class SportView: BaseView {
         isSelected = true
     }
     
-    func set(sport: Constants.Sports) {
+    func set(sport: Sport) {
         self.sport = sport
         
         configuration.title = sport.name
