@@ -5,7 +5,9 @@
 //  Created by akademija on 08.05.2026..
 //
 
-struct Event: Codable {
+import GRDB
+
+struct Event: Codable, FetchableRecord, PersistableRecord {
     let id: Int64
     let homeTeam: Team
     let awayTeam: Team
@@ -14,4 +16,52 @@ struct Event: Codable {
     let league: League
     let homeScore: Int?
     let awayScore: Int?
+    
+    static let databaseTableName = "event"
+    
+    init(row: Row) {
+        id = row["id"]
+        homeTeam = Team(
+            id: row["homeTeamId"],
+            name: row["homeTeamName"],
+            logoUrl: row["homeTeamLogoUrl"],
+            country: Country(name: row["homeTeamCountryName"]))
+        awayTeam = Team(
+            id: row["awayTeamId"],
+            name: row["awayTeamName"],
+            logoUrl: row["awayTeamLogoUrl"],
+            country: Country(name: row["awayTeamCountryName"]))
+        startTimestamp = row["startTimestamp"]
+        
+        let statusRaw: String = row["statusCode"]
+        status = EventStatus(rawValue: statusRaw) ?? .notStarted
+        
+        league = League(id: row["leagueId"], name: row["leagueName"], country: Country(name: row["leagueCountryName"]), logoUrl: row["leagueUrl"])
+        homeScore = row["homeScore"]
+        awayScore = row["awayScore"]
+    }
+    
+    func encode(to container: inout PersistenceContainer) {
+        container["id"] = id
+        container["startTimestamp"] = startTimestamp
+        container["homeScore"] = homeScore
+        container["awayScore"] = awayScore
+        
+        container["statusCode"] = status.rawValue
+        
+        container["homeTeamId"] = homeTeam.id
+        container["homeTeamName"] = homeTeam.name
+        container["homeTeamLogoUrl"] = homeTeam.logoUrl
+        container["homeTeamCountryName"] = homeTeam.country?.name
+        
+        container["awayTeamId"] = awayTeam.id
+        container["awayTeamName"] = awayTeam.name
+        container["awayTeamLogoUrl"] = awayTeam.logoUrl
+        container["awayTeamCountryName"] = awayTeam.country?.name
+        
+        container["leagueId"] = league.id
+        container["leagueName"] = league.name
+        container["leagueCountryName"] = league.country.name
+        container["leagueUrl"] = league.logoUrl
+    }
 }

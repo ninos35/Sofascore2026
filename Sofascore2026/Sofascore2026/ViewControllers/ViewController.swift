@@ -10,7 +10,7 @@ import SnapKit
 import SofaAcademic
 
 class ViewController: UIViewController {
-        
+    
     private let sports: [Sport] = [.football,.basketball,.americanFootball]
     
     private let topSectionView: TopSectionView = TopSectionView()
@@ -61,16 +61,16 @@ class ViewController: UIViewController {
     }
     
     func loadData(for sport: Sport) {
-//                Task {
-//                    do {
-//                        let events = try await APIClient.shared.getAllEvents(sport: sport.urlKey)
-//                        await MainActor.run {
-//                            setTableViewData(data: events)
-//                        }
-//                    } catch {
-//                        Alerts.showFetchError(on: self)
-//                    }
-//                }
+        //                Task {
+        //                    do {
+        //                        let events = try await APIClient.shared.getAllEvents(sport: sport.urlKey)
+        //                        await MainActor.run {
+        //                            setTableViewData(data: events)
+        //                        }
+        //                    } catch {
+        //                        Alerts.showFetchError(on: self)
+        //                    }
+        //                }
         APIClient.shared.getAllEventsOld(sport: sport.urlKey) { [weak self] events in
             DispatchQueue.main.async {
                 guard let self = self else {return}
@@ -98,6 +98,16 @@ class ViewController: UIViewController {
         let sortedSections = finalSections.sorted { $0.league.id < $1.league.id }
         
         tableView.set(sections: sortedSections)
+        
+        let leagues = Array(Set(data.map { $0.league.id }))
+            .compactMap { id in data.first { $0.league.id == id }?.league }
+        
+        do {
+            try DatabaseManager.shared.saveLeagues(leagues)
+            try DatabaseManager.shared.saveEvents(data)
+        } catch {
+            print("DB error: \(error)")
+        }
     }
     
     func gestureRecognisers() {

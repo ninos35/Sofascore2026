@@ -20,4 +20,16 @@ enum Alerts {
         
         viewController.present(alert, animated: true, completion: nil)
     }
+    
+    static func showLoginError(on viewController: UIViewController) {
+        
+        let alert = UIAlertController(title: "Could not login",
+                                      message: "Incorrect data",
+                                      preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }

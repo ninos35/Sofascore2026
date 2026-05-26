@@ -10,8 +10,7 @@ import SnapKit
 
 class SettingsViewController: UIViewController {
     
-    let titleLabel: UILabel = UILabel()
-    let dismissLabel: UILabel = UILabel()
+    private let settingsView: SettingsView = SettingsView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,45 +18,49 @@ class SettingsViewController: UIViewController {
         addViews()
         styleViews()
         setupConstraints()
-        setupDismiss()
+        gestureRecognisers()
     }
     
     func addViews() {
-        view.addSubview(titleLabel)
-        view.addSubview(dismissLabel)
+        view.addSubview(settingsView)
     }
     
     func styleViews() {
         view.backgroundColor = .white
-        
-        titleLabel.text = "Settings"
-        titleLabel.font = Constants.Fonts.bold
-        titleLabel.textAlignment = .center
-        
-        dismissLabel.text = "Dismiss"
-        dismissLabel.textColor = Constants.Colors.lightBlue
-        dismissLabel.font = Constants.Fonts.regular
-        dismissLabel.textAlignment = .center
     }
     
     func setupConstraints() {
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
-            make.leading.trailing.equalToSuperview()
-        }
-        dismissLabel.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-            make.centerY.equalToSuperview()
+        settingsView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    func setupDismiss() {
-        dismissLabel.isUserInteractionEnabled = true
+    func gestureRecognisers() {
+        settingsView.dismissLabel.isUserInteractionEnabled = true
         let dismissTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDismiss))
-        dismissLabel.addGestureRecognizer(dismissTapGesture)
+        settingsView.dismissLabel.addGestureRecognizer(dismissTapGesture)
+        
+        settingsView.logoutLabel.isUserInteractionEnabled = true
+        let logoutTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleLogout))
+        settingsView.logoutLabel.addGestureRecognizer(logoutTapGesture)
     }
     
     @objc func handleDismiss() {
         self.dismiss(animated: true)
+    }
+    
+    @objc func handleLogout() {
+        KeychainManager.shared.deleteData()
+        
+        try? DatabaseManager.shared.clearAllData()
+        
+        let loginViewController = LoginViewController()
+        let navigationController = UINavigationController(rootViewController: loginViewController)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navigationController
+        }
     }
 }
