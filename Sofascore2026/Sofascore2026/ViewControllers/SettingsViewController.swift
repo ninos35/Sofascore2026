@@ -10,8 +10,7 @@ import SnapKit
 
 class SettingsViewController: UIViewController {
     
-    let titleLabel: UILabel = UILabel()
-    let dismissLabel: UILabel = UILabel()
+    private let settingsView: SettingsView = SettingsView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,45 +18,57 @@ class SettingsViewController: UIViewController {
         addViews()
         styleViews()
         setupConstraints()
-        setupDismiss()
+        gestureRecognisers()
+        setData()
     }
     
     func addViews() {
-        view.addSubview(titleLabel)
-        view.addSubview(dismissLabel)
+        view.addSubview(settingsView)
     }
     
     func styleViews() {
         view.backgroundColor = .white
-        
-        titleLabel.text = "Settings"
-        titleLabel.font = Constants.Fonts.bold
-        titleLabel.textAlignment = .center
-        
-        dismissLabel.text = "Dismiss"
-        dismissLabel.textColor = Constants.Colors.lightBlue
-        dismissLabel.font = Constants.Fonts.regular
-        dismissLabel.textAlignment = .center
     }
     
     func setupConstraints() {
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
-            make.leading.trailing.equalToSuperview()
-        }
-        dismissLabel.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-            make.centerY.equalToSuperview()
+        settingsView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    func setupDismiss() {
-        dismissLabel.isUserInteractionEnabled = true
-        let dismissTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDismiss))
-        dismissLabel.addGestureRecognizer(dismissTapGesture)
+    func gestureRecognisers() {
+        settingsView.dismissClicked = { [weak self] in
+            self?.handleDismiss()
+        }
+        settingsView.logoutClicked = { [weak self] in
+            self?.handleLogout()
+        }
     }
     
-    @objc func handleDismiss() {
+    func handleDismiss() {
         self.dismiss(animated: true)
+    }
+    
+    func handleLogout() {
+        KeychainManager.shared.deleteData()
+        
+        try? DatabaseManager.shared.clearAllData()
+        
+        let loginViewController = LoginViewController()
+        let navigationController = UINavigationController(rootViewController: loginViewController)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navigationController
+        }
+    }
+    
+    func setData() {
+        let username = KeychainManager.shared.getUsername() ?? "No Username"
+        let leagueCount = (try? DatabaseManager.shared.leagueCount()) ?? 0
+        let eventCount = (try? DatabaseManager.shared.eventCount()) ?? 0
+        
+        settingsView.set(username: username, leagueCount: leagueCount, eventCount: eventCount)
     }
 }

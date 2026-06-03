@@ -21,9 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(windowScene: windowScene)
         }
         
-        let viewController = ViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        window?.rootViewController = navigationController
+        let token = KeychainManager.shared.getToken()
+        
+        if token != nil {
+            let viewController = ViewController()
+            let navigationController = UINavigationController(rootViewController: viewController)
+            window?.rootViewController = navigationController
+        } else {
+            let loginViewController = LoginViewController()
+            let navigationController = UINavigationController(rootViewController: loginViewController)
+            window?.rootViewController = navigationController
+        }
+        
         window?.makeKeyAndVisible()
         
         return true

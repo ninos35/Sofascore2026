@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D222CB7F2FC59B8B006681E7 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = D222CB7E2FC59B8B006681E7 /* GRDB */; };
+		D222CB862FC5B836006681E7 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = D222CB852FC5B836006681E7 /* KeychainAccess */; };
 		D29492672FBB0FB700995F0C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D29492662FBB0FB700995F0C /* Kingfisher */; };
 		D2F569F22F5EF46E001DF50A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2F569F12F5EF46E001DF50A /* SnapKit */; };
 		D2F56A252F61C6CA001DF50A /* SofaAcademic in Frameworks */ = {isa = PBXBuildFile; productRef = D2F56A242F61C6CA001DF50A /* SofaAcademic */; };
@@ -45,6 +47,8 @@
 				D29492672FBB0FB700995F0C /* Kingfisher in Frameworks */,
 				D2F56A252F61C6CA001DF50A /* SofaAcademic in Frameworks */,
 				D2F569F22F5EF46E001DF50A /* SnapKit in Frameworks */,
+				D222CB7F2FC59B8B006681E7 /* GRDB in Frameworks */,
+				D222CB862FC5B836006681E7 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +94,8 @@
 				D2F569F12F5EF46E001DF50A /* SnapKit */,
 				D2F56A242F61C6CA001DF50A /* SofaAcademic */,
 				D29492662FBB0FB700995F0C /* Kingfisher */,
+				D222CB7E2FC59B8B006681E7 /* GRDB */,
+				D222CB852FC5B836006681E7 /* KeychainAccess */,
 			);
 			productName = Sofascore2026;
 			productReference = D2F569C12F59C786001DF50A /* Sofascore2026.app */;
@@ -123,6 +129,8 @@
 				D2F569F02F5EF46E001DF50A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				D2F56A232F61C6CA001DF50A /* XCRemoteSwiftPackageReference "academy" */,
 				D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D222CB7D2FC59B8B006681E7 /* XCRemoteSwiftPackageReference "GRDB" */,
+				D222CB842FC5B836006681E7 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D2F569C22F59C786001DF50A /* Products */;
@@ -360,6 +368,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D222CB7D2FC59B8B006681E7 /* XCRemoteSwiftPackageReference "GRDB" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		D222CB842FC5B836006681E7 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -387,6 +411,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D222CB7E2FC59B8B006681E7 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D222CB7D2FC59B8B006681E7 /* XCRemoteSwiftPackageReference "GRDB" */;
+			productName = GRDB;
+		};
+		D222CB852FC5B836006681E7 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D222CB842FC5B836006681E7 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		D29492662FBB0FB700995F0C /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D29492652FBB0FB700995F0C /* XCRemoteSwiftPackageReference "Kingfisher" */;
