@@ -15,12 +15,14 @@ class LoginView: BaseView {
     
     private let loginLabel: UILabel = UILabel()
     
-    let usernameTextField: UITextField = UITextField()
-    let passwordTextField: UITextField = UITextField()
+    private let usernameTextField: UITextField = UITextField()
+    private let passwordTextField: UITextField = UITextField()
     
-    let loginButton: UIButton = UIButton()
+    private let loginButton: UIButton = UIButton()
     
     private let sloganLabel: UILabel = UILabel()
+    
+    var onLoginTapped: ((String, String) -> Void)?
     
     override func addViews() {
         addSubview(logoImageView)
@@ -59,6 +61,17 @@ class LoginView: BaseView {
         sloganLabel.font = Constants.Fonts.regular
         sloganLabel.textColor = .white
         sloganLabel.text = "Live scores for every sport"
+    }
+    
+    override func setupGestureRecognizers() {
+        loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
+    }
+    
+    @objc private func loginAction() {
+        let username: String = usernameTextField.text ?? ""
+        let password: String = passwordTextField.text ?? ""
+        
+        onLoginTapped?(username,password)
     }
     
     override func setupConstraints() {

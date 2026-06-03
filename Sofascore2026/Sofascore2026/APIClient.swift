@@ -32,7 +32,7 @@ class APIClient {
             throw URLError(.badURL)
         }
         
-        guard let token = UserDefaults.standard.string(forKey: "userToken") else {
+        guard let token = KeychainManager.shared.getToken() else {
             throw URLError(.userAuthenticationRequired)
         }
         
@@ -52,7 +52,7 @@ class APIClient {
             return
         }
         
-        guard let token = UserDefaults.standard.string(forKey: "userToken") else {
+        guard let token = KeychainManager.shared.getToken() else {
             completion(nil)
             return
         }

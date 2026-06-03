@@ -32,16 +32,18 @@ class LoginViewController: UIViewController {
     }
     
     func gestureRecognisers() {
-        loginView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        loginView.onLoginTapped = { [weak self] username, password in
+            guard let self = self else { return }
+            
+            if username.isEmpty || password.isEmpty {
+                Alerts.showLoginError(on: self)
+                return
+            }
+            loginTapped(username: username, password: password)
+        }
     }
     
-    @objc private func loginTapped() {
-        guard let username = loginView.usernameTextField.text, !username.isEmpty,
-              let password = loginView.passwordTextField.text, !password.isEmpty
-        else {
-            Alerts.showLoginError(on: self)
-            return
-        }
+    func loginTapped(username: String, password: String) {
         
         let loginRequest = LoginRequest(username: username, password: password)
         

@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
         styleViews()
         setupConstraints()
         gestureRecognisers()
+        setData()
     }
     
     func addViews() {
@@ -37,20 +38,19 @@ class SettingsViewController: UIViewController {
     }
     
     func gestureRecognisers() {
-        settingsView.dismissLabel.isUserInteractionEnabled = true
-        let dismissTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDismiss))
-        settingsView.dismissLabel.addGestureRecognizer(dismissTapGesture)
-        
-        settingsView.logoutLabel.isUserInteractionEnabled = true
-        let logoutTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleLogout))
-        settingsView.logoutLabel.addGestureRecognizer(logoutTapGesture)
+        settingsView.dismissClicked = { [weak self] in
+            self?.handleDismiss()
+        }
+        settingsView.logoutClicked = { [weak self] in
+            self?.handleLogout()
+        }
     }
     
-    @objc func handleDismiss() {
+    func handleDismiss() {
         self.dismiss(animated: true)
     }
     
-    @objc func handleLogout() {
+    func handleLogout() {
         KeychainManager.shared.deleteData()
         
         try? DatabaseManager.shared.clearAllData()
@@ -62,5 +62,13 @@ class SettingsViewController: UIViewController {
            let window = windowScene.windows.first {
             window.rootViewController = navigationController
         }
+    }
+    
+    func setData() {
+        let username = KeychainManager.shared.getUsername() ?? "No Username"
+        let leagueCount = (try? DatabaseManager.shared.leagueCount()) ?? 0
+        let eventCount = (try? DatabaseManager.shared.eventCount()) ?? 0
+        
+        settingsView.set(username: username, leagueCount: leagueCount, eventCount: eventCount)
     }
 }

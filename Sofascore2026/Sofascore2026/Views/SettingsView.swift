@@ -17,8 +17,11 @@ class SettingsView: BaseView {
     private let leaguesLabel: UILabel = UILabel()
     private let eventsLabel: UILabel = UILabel()
     
-    let dismissLabel: UILabel = UILabel()
-    let logoutLabel: UILabel = UILabel()
+    private let dismissLabel: UILabel = UILabel()
+    private let logoutLabel: UILabel = UILabel()
+    
+    var dismissClicked: (() -> Void)?
+    var logoutClicked: (() -> Void)?
     
     override func addViews() {
         addSubview(titleLabel)
@@ -37,15 +40,12 @@ class SettingsView: BaseView {
         titleLabel.font = Constants.Fonts.bold
         titleLabel.textAlignment = .center
         
-        usernameLabel.text = "Username: " + (UserDefaults.standard.string(forKey: "username") ?? "No username")
         usernameLabel.font = Constants.Fonts.regular
         usernameLabel.textAlignment = .center
         
-        leaguesLabel.text = "No. of leagues: \((try? DatabaseManager.shared.leagueCount()) ?? 0)"
         leaguesLabel.font = Constants.Fonts.regular
         leaguesLabel.textAlignment = .center
         
-        eventsLabel.text = "No. of events: \((try? DatabaseManager.shared.eventCount()) ?? 0)"
         eventsLabel.font = Constants.Fonts.regular
         eventsLabel.textAlignment = .center
         
@@ -58,6 +58,24 @@ class SettingsView: BaseView {
         logoutLabel.textColor = Constants.Colors.red
         logoutLabel.font = Constants.Fonts.regular
         logoutLabel.textAlignment = .center
+    }
+    
+    override func setupGestureRecognizers() {
+        dismissLabel.isUserInteractionEnabled = true
+        let dismissTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clickedDismiss))
+        dismissLabel.addGestureRecognizer(dismissTapGesture)
+        
+        logoutLabel.isUserInteractionEnabled = true
+        let logoutTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clickedLogout))
+        logoutLabel.addGestureRecognizer(logoutTapGesture)
+    }
+    
+    @objc func clickedDismiss() {
+        dismissClicked?()
+    }
+    
+    @objc func clickedLogout() {
+        logoutClicked?()
     }
     
     override func setupConstraints() {
@@ -88,5 +106,11 @@ class SettingsView: BaseView {
             make.centerX.equalToSuperview()
             make.top.equalTo(logoutLabel.snp.bottom).offset(24)
         }
+    }
+    
+    func set(username: String, leagueCount: Int, eventCount: Int) {
+        usernameLabel.text = "Username: " + username
+        leaguesLabel.text = "No. of leagues: \(leagueCount)"
+        eventsLabel.text = "No. of events: \(eventCount)"
     }
 }
