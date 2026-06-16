@@ -1,9 +1,3 @@
-//
-//  UIImageView+Ext.swift
-//  Sofascore2026
-//
-//  Created by akademija on 10.05.2026..
-//
 
 import UIKit
 import Kingfisher

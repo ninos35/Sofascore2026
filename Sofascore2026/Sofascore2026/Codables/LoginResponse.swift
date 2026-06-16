@@ -1,11 +1,5 @@
-//
-//  LoginResponse.swift
-//  Sofascore2026
-//
-//  Created by akademija on 25.05.2026..
-//
 
-struct LoginResponse: Codable {
+struct LoginResponse: Decodable {
     let name: String
     let token: String
 }

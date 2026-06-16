@@ -1,10 +1,3 @@
-//
-//  LoginViewController.swift
-//  Sofascore2026
-//
-//  Created by akademija on 25.05.2026..
-//
-
 
 import UIKit
 import SnapKit
@@ -45,17 +38,17 @@ class LoginViewController: UIViewController {
     
     func loginTapped(username: String, password: String) {
         
-        let loginRequest = LoginRequest(username: username, password: password)
+        let loginRequest: LoginRequest = LoginRequest(username: username, password: password)
         
         Task {
             do {
-                let response = try await APIClient.shared.login(loginRequest: loginRequest)
+                let response: LoginResponse = try await APIClient.shared.login(loginRequest: loginRequest)
                 await MainActor.run {
                     KeychainManager.shared.saveToken(token: response.token)
                     KeychainManager.shared.saveUsername(username: response.name)
                     
-                    let viewController = ViewController()
-                    let navigationController = UINavigationController(rootViewController: viewController)
+                    let viewController: ViewController = ViewController()
+                    let navigationController: UINavigationController = UINavigationController(rootViewController: viewController)
                     
                     if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                        let window = windowScene.windows.first {

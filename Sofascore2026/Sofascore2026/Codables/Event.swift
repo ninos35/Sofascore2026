@@ -1,21 +1,16 @@
-//
-//  Event.swift
-//  Sofascore2026
-//
-//  Created by akademija on 08.05.2026..
-//
 
 import GRDB
 
-struct Event: Codable, FetchableRecord, PersistableRecord {
+struct Event: Decodable, FetchableRecord, PersistableRecord {
     let id: Int64
     let homeTeam: Team
     let awayTeam: Team
     let startTimestamp: Int64
     let status: EventStatus
     let league: League
-    let homeScore: Int?
-    let awayScore: Int?
+    let homeScore: Int32?
+    let awayScore: Int32?
+    let round: Int32?
     
     static let databaseTableName = "event"
     
@@ -39,6 +34,7 @@ struct Event: Codable, FetchableRecord, PersistableRecord {
         league = League(id: row["leagueId"], name: row["leagueName"], country: Country(name: row["leagueCountryName"]), logoUrl: row["leagueUrl"])
         homeScore = row["homeScore"]
         awayScore = row["awayScore"]
+        round = row["round"]
     }
     
     func encode(to container: inout PersistenceContainer) {
@@ -46,6 +42,7 @@ struct Event: Codable, FetchableRecord, PersistableRecord {
         container["startTimestamp"] = startTimestamp
         container["homeScore"] = homeScore
         container["awayScore"] = awayScore
+        container["round"] = round
         
         container["statusCode"] = status.rawValue
         
@@ -61,7 +58,7 @@ struct Event: Codable, FetchableRecord, PersistableRecord {
         
         container["leagueId"] = league.id
         container["leagueName"] = league.name
-        container["leagueCountryName"] = league.country.name
+        container["leagueCountryName"] = league.country?.name
         container["leagueUrl"] = league.logoUrl
     }
 }

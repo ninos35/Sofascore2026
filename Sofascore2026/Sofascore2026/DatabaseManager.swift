@@ -1,16 +1,10 @@
-//
-//  DatabaseManager.swift
-//  Sofascore2026
-//
-//  Created by akademija on 26.05.2026..
-//
 
 import GRDB
 import Foundation
 
 class DatabaseManager {
     
-    static let shared = DatabaseManager()
+    static let shared: DatabaseManager = DatabaseManager()
     var dbQueue: DatabaseQueue!
     
     private init() {
@@ -29,10 +23,9 @@ class DatabaseManager {
     
     private func setupMigrations() throws {
         
-        var migrator = DatabaseMigrator()
+        var migrator: DatabaseMigrator = DatabaseMigrator()
         
         migrator.registerMigration("v1") { db in
-            
             try db.create(table: "league") { t in
                 t.primaryKey("id", .integer)
                 t.column("name", .text).notNull()
@@ -45,6 +38,7 @@ class DatabaseManager {
                 t.column("statusCode", .text).notNull()
                 t.column("homeScore", .integer)
                 t.column("awayScore", .integer)
+                t.column("round", .integer)
                 
                 t.column("homeTeamId", .integer).notNull()
                 t.column("homeTeamName", .text).notNull()
@@ -67,37 +61,37 @@ class DatabaseManager {
     }
     
     func saveLeagues(_ leagues: [League]) throws {
-            try dbQueue.write { db in
-                for league in leagues {
-                    try league.insert(db, onConflict: .ignore)
-                }
+        try dbQueue.write { db in
+            for league in leagues {
+                try league.insert(db, onConflict: .ignore)
             }
         }
-        
-        func saveEvents(_ events: [Event]) throws {
-            try dbQueue.write { db in
-                for event in events {
-                    try event.insert(db, onConflict: .ignore)
-                }
+    }
+    
+    func saveEvents(_ events: [Event]) throws {
+        try dbQueue.write { db in
+            for event in events {
+                try event.insert(db, onConflict: .ignore)
             }
         }
-        
-        func leagueCount() throws -> Int {
-            try dbQueue.read { db in
-                try League.fetchCount(db)
-            }
+    }
+    
+    func leagueCount() throws -> Int {
+        try dbQueue.read { db in
+            try League.fetchCount(db)
         }
-        
-        func eventCount() throws -> Int {
-            try dbQueue.read { db in
-                try Event.fetchCount(db)
-            }
+    }
+    
+    func eventCount() throws -> Int {
+        try dbQueue.read { db in
+            try Event.fetchCount(db)
         }
-                
-        func clearAllData() throws {
-            try dbQueue.write { db in
-                try Event.deleteAll(db)
-                try League.deleteAll(db)
-            }
+    }
+    
+    func clearAllData() throws {
+        try dbQueue.write { db in
+            try Event.deleteAll(db)
+            try League.deleteAll(db)
         }
+    }
 }

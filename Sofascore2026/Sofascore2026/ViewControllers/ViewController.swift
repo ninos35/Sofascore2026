@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  Sofascore2026
-//
-//  Created by akademija on 05.03.2026..
-//
 
 import UIKit
 import SnapKit
@@ -12,6 +6,8 @@ import SofaAcademic
 class ViewController: UIViewController {
     
     private let sports: [Sport] = [.football,.basketball,.americanFootball]
+    
+    private var currentSport: Sport = .football
     
     private let topSectionView: TopSectionView = TopSectionView()
     
@@ -61,6 +57,9 @@ class ViewController: UIViewController {
     }
     
     func loadData(for sport: Sport) {
+        
+        self.currentSport = sport
+        
         //                Task {
         //                    do {
         //                        let events = try await APIClient.shared.getAllEvents(sport: sport.urlKey)
@@ -86,18 +85,22 @@ class ViewController: UIViewController {
     
     func setTableViewData(data: [Event]) {
         
-        let grouped = Dictionary(grouping: data) { $0.league.id }
+        let grouped = Swift.Dictionary(grouping: data) { $0.league.id }
         
         let finalSections: [Section] = grouped.compactMap { (key, events) in
             guard let firstLeague = events.first?.league else {
                 return nil
             }
-            return Section(league: firstLeague, events: events)
+            return Section(header: .league(firstLeague), events: events)
         }
         
-        let sortedSections = finalSections.sorted { $0.league.id < $1.league.id }
-        
-        tableView.set(sections: sortedSections)
+        let sortedSections = finalSections.sorted { (section1: Section, section2: Section) in
+            if case .league(let league1) = section1.header,
+               case .league(let league2) = section2.header {
+                return league1.id < league2.id
+            }
+            return false
+        }
         
         let leagues = Array(Set(data.map { $0.league.id }))
             .compactMap { id in data.first { $0.league.id == id }?.league }
@@ -108,20 +111,29 @@ class ViewController: UIViewController {
         } catch {
             print("DB error: \(error)")
         }
+        
+        tableView.set(sections: sortedSections)
     }
     
     func gestureRecognisers() {
         topSectionView.settingsClicked = { [weak self] in
-            let settingsViewController = SettingsViewController()
+            let settingsViewController: SettingsViewController = SettingsViewController()
             settingsViewController.modalPresentationStyle = .fullScreen
             self?.present(settingsViewController,animated: true)
         }
         
         tableView.selectedEvent = { [weak self] selectedMatch in
-            let eventDetailsViewController = EventDetailsViewController()
-            eventDetailsViewController.setEventDetails(match: selectedMatch)
-            
-            self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+            guard let self = self else { return }
+            let eventDetailsViewController: EventDetailsViewController = EventDetailsViewController()
+            eventDetailsViewController.setEventDetails(match: selectedMatch, sport: self.currentSport)
+            self.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+        }
+        
+        tableView.selectedLeague = { [weak self] selectedLeague in
+            guard let self = self else { return }
+            let tournamentViewController: TournamentViewController = TournamentViewController()
+            tournamentViewController.set(tournament: selectedLeague, sport: self.currentSport)
+            self.navigationController?.pushViewController(tournamentViewController, animated: true)
         }
         
         topSectionView.changeSportData = { [weak self] selectedSport in

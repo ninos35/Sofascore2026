@@ -1,9 +1,3 @@
-//
-//  SettingsViewController.swift
-//  Sofascore2026
-//
-//  Created by akademija on 28.03.2026..
-//
 
 import UIKit
 import SnapKit
@@ -27,7 +21,7 @@ class SettingsViewController: UIViewController {
     }
     
     func styleViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = Constants.Colors.lightBlue
     }
     
     func setupConstraints() {
@@ -55,8 +49,8 @@ class SettingsViewController: UIViewController {
         
         try? DatabaseManager.shared.clearAllData()
         
-        let loginViewController = LoginViewController()
-        let navigationController = UINavigationController(rootViewController: loginViewController)
+        let loginViewController: LoginViewController = LoginViewController()
+        let navigationController: UINavigationController = UINavigationController(rootViewController: loginViewController)
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
@@ -65,9 +59,9 @@ class SettingsViewController: UIViewController {
     }
     
     func setData() {
-        let username = KeychainManager.shared.getUsername() ?? "No Username"
-        let leagueCount = (try? DatabaseManager.shared.leagueCount()) ?? 0
-        let eventCount = (try? DatabaseManager.shared.eventCount()) ?? 0
+        let username: String = KeychainManager.shared.getUsername() ?? "No Username"
+        let leagueCount: Int = (try? DatabaseManager.shared.leagueCount()) ?? 0
+        let eventCount: Int = (try? DatabaseManager.shared.eventCount()) ?? 0
         
         settingsView.set(username: username, leagueCount: leagueCount, eventCount: eventCount)
     }

@@ -1,9 +1,3 @@
-//
-//  Sport.swift
-//  Sofascore2026
-//
-//  Created by akademija on 18.05.2026..
-//
 
 enum Sport {
     case football

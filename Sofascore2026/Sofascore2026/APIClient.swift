@@ -1,22 +1,16 @@
-//
-//  APIClient.swift
-//  Sofascore2026
-//
-//  Created by akademija on 09.05.2026..
-//
 
 import Foundation
 
 class APIClient {
     
-    static let shared = APIClient()
+    static let shared: APIClient = APIClient()
     
     func login(loginRequest: LoginRequest) async throws -> LoginResponse {
-        guard let url = URL(string: Constants.URLs.dataSourceUrl + "/login") else {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/login") else {
             throw URLError(.badURL)
         }
         
-        var request = URLRequest(url: url)
+        var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONEncoder().encode(loginRequest)
@@ -26,17 +20,33 @@ class APIClient {
         return try JSONDecoder().decode(LoginResponse.self, from: data)
     }
     
-    func getAllEvents(sport: String) async throws -> [Event] {
-        
-        guard let url = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
+    func getIncidents(id: Int64) async throws -> [Incident] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events/\(id)/incidents") else {
             throw URLError(.badURL)
         }
         
-        guard let token = KeychainManager.shared.getToken() else {
+        guard let token: String = KeychainManager.shared.getToken() else {
             throw URLError(.userAuthenticationRequired)
         }
         
-        var request = URLRequest(url: url)
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try JSONDecoder().decode([Incident].self, from: data)
+    }
+    
+    func getAllEvents(sport: String) async throws -> [Event] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
@@ -46,18 +56,17 @@ class APIClient {
     }
     
     func getAllEventsOld(sport: String, completion: @escaping ([Event]?) -> Void) {
-        
-        guard let url = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
             completion(nil)
             return
         }
         
-        guard let token = KeychainManager.shared.getToken() else {
+        guard let token: String = KeychainManager.shared.getToken() else {
             completion(nil)
             return
         }
         
-        var request = URLRequest(url: url)
+        var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
@@ -66,7 +75,6 @@ class APIClient {
                 completion(nil)
                 return
             }
-            
             do {
                 let events = try JSONDecoder().decode([Event].self, from: data)
                 completion(events)
@@ -75,5 +83,95 @@ class APIClient {
             }
             
         }.resume()
+    }
+    
+    func getTournamentMatches(id: Int) async throws -> [Event] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/leagues/\(id)/matches") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        return try JSONDecoder().decode([Event].self, from: data)
+    }
+    
+    func getTournamentStandings(id: Int) async throws -> [Standings] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/leagues/\(id)/standings") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        return try JSONDecoder().decode([Standings].self, from: data)
+    }
+    
+    func getTeamInfo(id: Int) async throws -> TeamInfo {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        return try JSONDecoder().decode(TeamInfo.self, from: data)
+    }
+    
+    func getTeamPlayers(id: Int) async throws -> [Player] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)/players") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        return try JSONDecoder().decode([Player].self, from: data)
+    }
+    
+    func getTeamTournaments(id: Int) async throws -> [League] {
+        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)/tournaments") else {
+            throw URLError(.badURL)
+        }
+        
+        guard let token: String = KeychainManager.shared.getToken() else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        return try JSONDecoder().decode([League].self, from: data)
     }
 }
