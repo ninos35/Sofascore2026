@@ -45,9 +45,7 @@ class SettingsViewController: UIViewController {
     }
     
     func handleLogout() {
-        KeychainManager.shared.deleteData()
-        
-        try? DatabaseManager.shared.clearAllData()
+        SettingsHelper.clearUserData()
         
         let loginViewController: LoginViewController = LoginViewController()
         let navigationController: UINavigationController = UINavigationController(rootViewController: loginViewController)
@@ -59,10 +57,8 @@ class SettingsViewController: UIViewController {
     }
     
     func setData() {
-        let username: String = KeychainManager.shared.getUsername() ?? "No Username"
-        let leagueCount: Int = (try? DatabaseManager.shared.leagueCount()) ?? 0
-        let eventCount: Int = (try? DatabaseManager.shared.eventCount()) ?? 0
+        let data = SettingsHelper.getSettingsData()
         
-        settingsView.set(username: username, leagueCount: leagueCount, eventCount: eventCount)
+        settingsView.set(username: data.username, leagueCount: data.leagueCount, eventCount: data.eventCount)
     }
 }

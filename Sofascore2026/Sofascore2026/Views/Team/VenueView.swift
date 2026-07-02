@@ -49,7 +49,7 @@ class VenueView: BaseView {
         }
     }
     
-    func set(venue: TeamVenue) {
-        stadiumNameLabel.text = venue.name
+    func set(venue: String) {
+        stadiumNameLabel.text = venue
     }
 }

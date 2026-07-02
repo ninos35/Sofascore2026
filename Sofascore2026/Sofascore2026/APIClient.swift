@@ -5,173 +5,70 @@ class APIClient {
     
     static let shared: APIClient = APIClient()
     
-    func login(loginRequest: LoginRequest) async throws -> LoginResponse {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/login") else {
+    private enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+    }
+    
+    private func request<T: Decodable>(
+        endpoint: String,
+        method: HTTPMethod = .get,
+        body: Data? = nil,
+        requiresAuth: Bool = true
+    ) async throws -> T {
+        
+        guard let url = URL(string: Constants.URLs.dataSourceUrl + endpoint) else {
             throw URLError(.badURL)
         }
         
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONEncoder().encode(loginRequest)
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.httpBody = body
+        
+        if requiresAuth {
+            guard let token = KeychainManager.shared.getToken() else {
+                throw URLError(.userAuthenticationRequired)
+            }
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
         
         let (data, _) = try await URLSession.shared.data(for: request)
         
-        return try JSONDecoder().decode(LoginResponse.self, from: data)
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+    
+    func login(loginRequest: LoginRequest) async throws -> LoginResponse {
+        let body = try JSONEncoder().encode(loginRequest)
+        return try await request(endpoint: "/login", method: .post, body: body, requiresAuth: false)
     }
     
     func getIncidents(id: Int64) async throws -> [Incident] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events/\(id)/incidents") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode([Incident].self, from: data)
+        return try await request(endpoint: "/events/\(id)/incidents")
     }
     
     func getAllEvents(sport: String) async throws -> [Event] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode([Event].self, from: data)
-    }
-    
-    func getAllEventsOld(sport: String, completion: @escaping ([Event]?) -> Void) {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/events?sport=\(sport)") else {
-            completion(nil)
-            return
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            completion(nil)
-            return
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(nil)
-                return
-            }
-            do {
-                let events = try JSONDecoder().decode([Event].self, from: data)
-                completion(events)
-            } catch {
-                completion(nil)
-            }
-            
-        }.resume()
+        return try await request(endpoint: "/events?sport=\(sport)")
     }
     
     func getTournamentMatches(id: Int) async throws -> [Event] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/leagues/\(id)/matches") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode([Event].self, from: data)
+        return try await request(endpoint: "/leagues/\(id)/matches")
     }
     
     func getTournamentStandings(id: Int) async throws -> [Standings] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/leagues/\(id)/standings") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode([Standings].self, from: data)
+        return try await request(endpoint: "/leagues/\(id)/standings")
     }
     
     func getTeamInfo(id: Int) async throws -> TeamInfo {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode(TeamInfo.self, from: data)
+        return try await request(endpoint: "/teams/\(id)")
     }
     
     func getTeamPlayers(id: Int) async throws -> [Player] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)/players") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode([Player].self, from: data)
+        return try await request(endpoint: "/teams/\(id)/players")
     }
     
     func getTeamTournaments(id: Int) async throws -> [League] {
-        guard let url: URL = URL(string: Constants.URLs.dataSourceUrl + "/teams/\(id)/tournaments") else {
-            throw URLError(.badURL)
-        }
-        
-        guard let token: String = KeychainManager.shared.getToken() else {
-            throw URLError(.userAuthenticationRequired)
-        }
-        
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let (data, _) = try await URLSession.shared.data(for: request)
-        
-        return try JSONDecoder().decode([League].self, from: data)
+        return try await request(endpoint: "/teams/\(id)/tournaments")
     }
 }

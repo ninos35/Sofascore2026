@@ -71,7 +71,7 @@ class TeamDetailsView: BaseView {
         tournamentsView.set(tournaments: leagues)
     }
     
-    func set(venue: TeamVenue) {
+    func set(venue: String) {
         venueView.set(venue: venue)
     }
 }

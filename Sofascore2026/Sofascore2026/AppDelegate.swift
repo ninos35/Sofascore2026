@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = KeychainManager.shared.getToken()
         
         if token != nil {
-            let viewController = ViewController()
+            let viewController = HomeViewController()
             let navigationController = UINavigationController(rootViewController: viewController)
             window?.rootViewController = navigationController
         } else {

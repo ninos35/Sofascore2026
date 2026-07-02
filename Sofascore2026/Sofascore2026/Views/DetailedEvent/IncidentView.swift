@@ -99,7 +99,9 @@ class IncidentView: BaseView {
             basketDividerView.isHidden = true
             
             if sport == .basketball {
-                if incident.scoreDiff == 2 {
+                if incident.scoreDiff == 1 {
+                    incidentImageView.image = UIImage(named: Constants.IncidentIcons.scoreIcon)
+                } else if incident.scoreDiff == 2 {
                     incidentImageView.image = UIImage(named: Constants.IncidentIcons.twoPointsIcon)
                 } else if incident.scoreDiff == 3 {
                     incidentImageView.image = UIImage(named: Constants.IncidentIcons.threePointsIcon)

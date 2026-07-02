@@ -42,12 +42,12 @@ class LoginViewController: UIViewController {
         
         Task {
             do {
-                let response: LoginResponse = try await APIClient.shared.login(loginRequest: loginRequest)
+                let response: LoginResponse = try await LoginDataLoader.login(request: loginRequest)
                 await MainActor.run {
-                    KeychainManager.shared.saveToken(token: response.token)
-                    KeychainManager.shared.saveUsername(username: response.name)
                     
-                    let viewController: ViewController = ViewController()
+                    LoginHelper.saveSession(response: response)
+                    
+                    let viewController: HomeViewController = HomeViewController()
                     let navigationController: UINavigationController = UINavigationController(rootViewController: viewController)
                     
                     if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

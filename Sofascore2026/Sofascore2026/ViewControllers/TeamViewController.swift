@@ -127,21 +127,31 @@ class TeamViewController: UIViewController {
     }
     
     private func loadDetailsData() {
+        
+        guard let currentTeam = team else {
+            return
+        }
+        
+        let teamId = Int(currentTeam.id)
+        
         Task {
             do {
-                let teamInfo: TeamInfo = try await APIClient.shared.getTeamInfo(id: Int(team!.id))
-                let teamPlayers: [Player] = try await APIClient.shared.getTeamPlayers(id: Int(team!.id))
-                let tournaments: [League] = try await APIClient.shared.getTeamTournaments(id: Int(team!.id))
+                async let fetchedInfo: TeamInfo = try await TeamDataLoader.loadTeamInfo(for: teamId)
+                async let fetchedPlayers: [Player] = try await TeamDataLoader.loadTeamPlayers(for: teamId)
+                async let fetchedTournaments: [League] = try await TeamDataLoader.loadTeamTournaments(for: teamId)
+                
+                let (teamInfo, teamPlayers, tournaments) = try await (fetchedInfo, fetchedPlayers, fetchedTournaments)
+                
                 await MainActor.run {
                     
                     self.players = teamPlayers
                     let totalCount: Int = teamPlayers.count
-                    let foreignCount: Int = teamPlayers.filter { $0.isForeign == true }.count
+                    let foreignCount: Int = TeamHelper.calculateForeignPlayersCount(from: teamPlayers)
                     
                     teamDetailsView.set(teamInfo: teamInfo)
                     teamDetailsView.set(totalPlayers: totalCount, foreignPlayers: foreignCount)
                     teamDetailsView.set(tournaments: tournaments)
-                    teamDetailsView.set(venue: teamInfo.venue!)
+                    teamDetailsView.set(venue: teamInfo.venue?.name ?? "No data")
                 }
             } catch {
                 Alerts.showFetchError(on: self)

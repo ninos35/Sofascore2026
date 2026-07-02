@@ -102,47 +102,23 @@ class EventDetailsViewController: UIViewController {
     private func fetchIncidents(for id: Int64) {
         Task {
             do {
-                let incidents: [Incident] = try await APIClient.shared.getIncidents(id: id)
+                let incidents: [Incident] = try await EventDetailsDataLoader.loadIncidents(for: id)
                 
                 await MainActor.run {
-                    setTableViewData(data: incidents)
+                    if incidents.isEmpty {
+                        noIncidentView.isHidden = false
+                        return
+                    }
+                    
+                    let processedIncidents = EventDetailsHelper.processIncidents(incidents)
+                    let section = IncidentSection(incidents: processedIncidents)
+                    
+                    incidentTableView.set(sections: [section])
                 }
             } catch {
                 Alerts.showFetchError(on: self)
             }
         }
-    }
-    
-    func setTableViewData(data: [Incident]) {
-        if data.isEmpty {
-            noIncidentView.isHidden = false
-            return
-        }
-        
-        let chronological: [Incident] = data.sorted { $0.minute < $1.minute }
-        
-        var currentHomeScore: Int32 = 0
-        var currentAwayScore: Int32 = 0
-        
-        let incidents: [Incident] = chronological.map { incident in
-            var i = incident
-            
-            if incident.type == .goal {
-                if incident.isHomeTeam == true {
-                    currentHomeScore += incident.scoreDiff ?? 0
-                } else {
-                    currentAwayScore += incident.scoreDiff ?? 0
-                }
-            }
-            
-            i.homeScore = currentHomeScore
-            i.awayScore = currentAwayScore
-            
-            return i
-        }
-        
-        let section: IncidentSection = IncidentSection(incidents: incidents.reversed())
-        incidentTableView.set(sections: [section])
     }
     
     func gestureRecognisers() {
@@ -160,21 +136,13 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
-    func getTitle(match: Event) -> String {
-        let sportName: String = self.currentSport.name
-        let countryName: String = match.league.country?.name ?? ""
-        let leagueName: String = match.league.name
-        let round: String = match.round?.toString() ?? ""
-        return sportName + ", " + countryName + ", " + leagueName + ", Round " + round
-    }
-    
     func setEventDetails(match: Event, sport: Sport) {
         
         self.currentSport = sport
         
         titleImageView.setUrlImage(logoUrl: match.league.logoUrl)
         
-        titleLabel.text = getTitle(match: match)
+        titleLabel.text = EventDetailsHelper.generateTitle(match: match, sport: sport)
         
         detailedMatchView.set(detailedMatch: match)
         noIncidentView.set(league: match.league)

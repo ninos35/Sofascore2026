@@ -131,11 +131,22 @@ class TournamentViewController: UIViewController {
     }
     
     private func loadMatchesData() {
+        
+        guard let currentTournament = tournament else {
+            return
+        }
+        
+        let tournamentId = currentTournament.id
+        
         Task {
             do {
-                let events: [Event] = try await APIClient.shared.getTournamentMatches(id: tournament!.id)
+                let events: [Event] = try await TournamentDataLoader.loadMatches(for: tournamentId)
+                
+                self.teamStreaks = TournamentHelper.calculateStreaks(from: events)
+                let sortedSections = TournamentHelper.groupAndSortMatches(events)
+                
                 await MainActor.run {
-                    setTournamentTableViewData(data: events)
+                    matchesTableView.set(sections: sortedSections)
                 }
             } catch {
                 Alerts.showFetchError(on: self)
@@ -144,104 +155,26 @@ class TournamentViewController: UIViewController {
     }
     
     private func loadStandingsData() {
+        
+        guard let currentTournament = tournament else {
+            return
+        }
+        
+        let tournamentId = currentTournament.id
+        
         Task {
             do {
-                let standings: [Standings] = try await APIClient.shared.getTournamentStandings(id: tournament!.id)
+                let standings: [Standings] = try await TournamentDataLoader.loadStandings(for: tournamentId)
+                
+                let processedRows = TournamentHelper.processStandings(standings, sport: currentSport, teamStreaks: teamStreaks)
+                let singleSection = StandingSection(standings: processedRows)
                 await MainActor.run {
-                    setTournamentStandings(standings: standings)
+                    standingsTableView.set(sections: [singleSection])
                 }
             } catch {
                 Alerts.showFetchError(on: self)
             }
         }
-    }
-    
-    private func setTournamentTableViewData(data: [Event]) {
-        teamStreaks = calculateStreaks(from: data)
-        
-        let groupedByRound = Dictionary(grouping: data) { Int($0.round!) }
-        
-        let finalSections: [Section] = groupedByRound.map { (roundNumber, events) in
-            return Section(header: .round(Int32(roundNumber)), events: events)
-        }
-        
-        let sortedSections = finalSections.sorted { (section1: Section, section2: Section) in
-            if case .round(let num1) = section1.header,
-               case .round(let num2) = section2.header {
-                
-                return num1 < num2
-            }
-            return false
-        }
-        
-        matchesTableView.set(sections: sortedSections)
-    }
-    
-    private func setTournamentStandings(standings: [Standings]) {
-        var sortedRows: [Standings] = standings.sorted { $0.position < $1.position }
-        
-        if currentSport == .basketball {
-            let leader: Standings? = sortedRows.first
-            
-            sortedRows = sortedRows.map { s in
-                var updated = s
-                if let leader = leader {
-                    updated.gb = Double((leader.wins - s.wins) + (s.losses - leader.losses)) / 2.0
-                }
-                updated.str = teamStreaks[Int(s.team.id)]
-                return updated
-            }
-        }
-        
-        let singleSection: StandingSection = StandingSection(standings: sortedRows)
-        standingsTableView.set(sections: [singleSection])
-    }
-    
-    private func calculateStreaks(from events: [Event]) -> [Int: String] {
-        var teamEvents: [Int: [Event]] = [:]
-        
-        for event in events {
-            teamEvents[Int(event.homeTeam.id), default: []].append(event)
-            teamEvents[Int(event.awayTeam.id), default: []].append(event)
-        }
-        
-        var streaks: [Int: String] = [:]
-        
-        for (teamId, matches) in teamEvents {
-            let sorted: [Event] = matches.sorted { $0.startTimestamp > $1.startTimestamp }
-            
-            var count: Int = 0
-            var lastResult: String? = nil
-            
-            for match in sorted {
-                guard let homeScore = match.homeScore,
-                      let awayScore = match.awayScore else { continue }
-                
-                let isHome = match.homeTeam.id == teamId
-                let result: String
-                
-                if homeScore == awayScore {
-                    result = "D"
-                } else if (isHome && homeScore > awayScore) || (!isHome && awayScore > homeScore) {
-                    result = "W"
-                } else {
-                    result = "L"
-                }
-                
-                if lastResult == nil { lastResult = result }
-                if result == lastResult {
-                    count += 1
-                } else {
-                    break
-                }
-            }
-            
-            if let last = lastResult {
-                streaks[teamId] = "\(last)\(count)"
-            }
-        }
-        
-        return streaks
     }
     
     func set(tournament league: League, sport: Sport) {
